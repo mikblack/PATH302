@@ -1,0 +1,352 @@
+---
+title: "PATH302 - Breast Cancer Data"
+author: "Mik Black"
+date: "24 August 2017"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+In this lab we will be using the R computing environment to perfom a basic analysis of
+gene expression data from a breast cancer data set.
+
+The data we will be using comes from the following publication:
+
+Miller, L. D., Smeds, J., George, J., Vega, V. B., Vergara, L., Ploner, A., et al. (2005). An expression signature for p53 status in human breast cancer predicts mutation status, transcriptional effects, and patient survival. Proceedings of the National Academy of Sciences of the United States of America, 102(38), 13550–13555. 
+
+It comprises microarray and clinical data generated from tumour samples obtained from 251 female breast cancer patients from Uppsala County, Sweden, from January 1, 1987 to December 31, 1989.  While this is a relatively old data set, it still reflects the type of data generated in clinical genomics studies today (i.e., sequencing-based transcriptomic data from tumours).
+
+## Setup 
+
+Click on the Windows Start Menu in the bottom left of the Student Desktop, and open the RStudio application.
+
+### Installation
+
+In order to access the data and commands needed for this lab, we first need to install some add-on packages.
+Run the commands below in R to do this:
+
+```{r, eval=F}
+dir.create('Rlibs')
+newPath = c(.libPaths(), paste0(getwd(), "Rlibs"))
+.libPaths(newPath)
+
+install.packages('BiocInstaller', repos='http://www.bioconductor.org/packages/3.4/bioc', lib='Rlibs')
+
+install.packages('dplyr', lib='Rlibs')
+install.packages('ggplot2', lib='Rlibs')
+install.packages('gplots', lib='Rlibs')
+install.packages('dplyr', lib='Rlibs')
+
+biocLite("genefu", lib="Rlibs")
+```
+
+### Load packages
+
+```{r, warning=FALSE, message=FALSE}
+library(genefu)
+library(ggplot2)
+library(dplyr)
+library(gplots)
+```
+
+### Load data
+
+Unfortunately, due to the way in which the student desktop is set up, the package that conatins that data,
+`breastCancerUPP` can't eaily be installed.  I have instead created a data file containing the reqired 
+information, that can be loaded via the following command:
+
+```{r}
+library(httr)
+load(url("https://github.com/mikblack/PATH302/raw/master/uppsalaCohort.RData"))
+response <- GET(url="https://www.dropbox.com/s/r48x5ruk449dwf2/uppsalaCohort.RData?dl=0")
+load(rawConnection(response$content))
+```
+
+```{r}
+data(upp)
+```
+
+### Extract cohort data
+
+Gene expression data:
+
+```{r}
+uppExp   = exprs(upp)
+```
+
+View data using RStudio built-in viewer
+
+```{r, eval=FALSE}
+View(uppExp)
+```
+
+Gene annotation data
+
+```{r}
+uppAnnot = featureData(upp)@data
+```
+
+```{r, eval=FALSE}
+View(uppAnnot)
+```
+
+Clinical data
+
+```{r}
+uppClin  = phenoData(upp)@data
+```
+
+```{r, eval=FALSE}
+View(uppClin)
+```
+
+### Clinical data
+
+Select subset of variables
+
+```{r}
+uppClinSmall = uppClin[,c("size", "age", "er", "grade", "pgr", 
+                          "node", "t.rfs", "e.rfs","treatment")]
+```
+
+Convert RFS time to years (from 'days')
+
+```{r}
+uppClinSmall$t.rfs = uppClinSmall$t.rfs / 365
+```
+
+Attached data so that we can directly access the clinical variables by name
+
+```{r}
+attach(uppClinSmall)
+```
+
+For example:
+
+```{r}
+grade
+```
+
+Examine some data
+
+```{r}
+ggplot(data=uppClinSmall, aes(x=size)) + 
+  geom_histogram(fill="white", colour="black") +
+  xlab("Tumour Size") +
+  ylab("Frequency")
+```
+
+```{r}
+ggplot(data=uppClinSmall, aes(x=age)) + 
+  geom_histogram(fill="white", colour="black") +
+  xlab("Age") +
+  ylab("Frequency")
+```
+
+
+```{r}
+ggplot(data=uppClinSmall, aes(x=as.factor(grade),y=size)) + 
+  geom_boxplot()
+```
+
+```{r}
+ggplot(data=uppClinSmall, aes(x=as.factor(grade),y=size)) + 
+  geom_boxplot() +
+  ylim(0,7)
+```
+
+```{r}
+table(er)
+```
+
+```{r}
+table(grade)
+prop.table(table(grade))
+```
+
+```{r}
+table(er, grade)
+
+prop.table(table(er, grade))
+
+prop.table(table(er, grade),1)
+
+prop.table(table(er, grade),2)
+```
+
+```{r}
+chisq.test(table(er, grade))
+
+fisher.test(table(er, grade))
+```
+
+### Molecular subtyping
+
+```{r}
+# Perform subtyping using PAM50
+# Note that the expression data matrix needs to be transposed.
+PAM50Preds<-molecular.subtyping(sbt.model = "pam50",data=t(uppExp),
+                                annot=uppAnnot,do.mapping=TRUE)
+table(PAM50Preds$subtype)
+```
+
+Add this information to the clinical data:
+
+```{r}
+uppClin$subtype = PAM50Preds$subtype
+attach(uppClin)
+```
+
+```{r}
+table(subtype, er)
+
+table(subtype, er) %>% 
+  prop.table(., 1) %>% 
+  round(., 3)
+```
+
+```{r}
+table(subtype, grade)
+table(subtype, grade) %>% 
+  prop.table(., 1) %>% 
+  round(., 3)
+
+round( prop.table( table(subtype, grade), 1), 3)
+```
+
+### Survival analysis
+
+```{r}
+plot( survfit(Surv(t.rfs, e.rfs) ~1 ), 
+      xlab="Time (years)", 
+      ylab = "Proportion recurrence free")
+
+plot( survfit(Surv(t.rfs, e.rfs) ~ grade ), col=1:3, 
+      xlab="Time (years)", 
+      ylab = "Proportion recurrence free")
+legend('bottomleft', c("G1", "G2", "G3"), fill=1:3)
+
+plot( survfit(Surv(t.rfs, e.rfs) ~ er ), col=1:2, 
+      xlab="Time (years)", 
+      ylab = "Proportion recurrence free")
+legend('bottomleft', c("ER-", "ER+"), fill=1:3)
+```
+
+
+```{r]}
+plot( survfit(Surv(t.rfs, e.rfs) ~ subtype ), col=1:5, 
+      xlab="Time (years)", 
+      ylab = "Proportion recurrence free")
+groups <- names(table(subtype))
+legend('bottomleft', groups, fill=1:5)
+```
+
+```{r}
+survdiff(Surv(t.rfs, e.rfs) ~ subtype)
+```
+
+```{r}
+survdiff(Surv(t.rfs, e.rfs) ~ grade)
+```
+
+### Gene expression data
+
+Let's find the microarray probe(s) for ESR1:
+
+```{r}
+esr1Probes = uppAnnot$probe[ na.omit(uppAnnot$Gene.symbol == 'ESR1') ]
+```
+
+```{r, eval=FALSE, echo=FALSE}
+par(mfrow=c(2,5))
+for(i in esr1Probes){
+  x = uppExp[match(i, rownames(uppExp)),]
+  boxplot(x ~ er)
+}
+```
+
+The best one to use is the first one: `esr1Probes[1]`.  What row of the data is this?
+
+```{r}
+match("205221_at", rownames(uppExp))
+```
+
+```{r}
+esr1Dat = uppExp[match("205221_at", rownames(uppExp)), ]
+```
+
+```{r}
+ggplot(data=uppClinSmall, aes(x=as.factor(er), y=esr1Dat)) + geom_boxplot()
+```
+
+### Proliferation genes
+
+The genes below are involved in proliferation:
+
+```{r, echo=FALSE}
+#prolifGenes = c("OSTC","MCM6","RPA3","MCM7","PCNA","XRCC6","KPNA2","ANLN","RNASEH2A",
+#                "PBK","GMNN","RRM1","CDC45","MAD2L1","RAN","DUT","RRM2","CDK7",
+#                "MLH3","SMC4","SMC3","POLD2","POLE2","BCCIP","GINS2","TREX1",
+#                "BUB3","FEN1","DBF4B","MOB4","CCNE1","RPA1","POLE3","RFC4","MCM3",
+#                "CHEK1","CCND1","CDC37")
+prolifGenes = c("MAD2L1", "RRM2", "ANLN", "MCM6", "PBK", "GINS2", "KPNA2", "PCNA")
+kable(data.frame(Gene=prolifGenes, 
+                 Probe=uppAnnot$probe[match(prolifGenes, uppAnnot$Gene.symbol)]))
+```
+
+```{r}
+
+```
+
+```{r}
+## prolifRows = which(uppAnnot$Gene.symbol %in% prolifGenes)
+prolifRows = na.omit(match(prolifGenes, uppAnnot$Gene.symbol))
+```
+
+```{r}
+prolifRows
+```
+
+```{r}
+prolifDat = uppExp[prolifRows, ]
+
+zz = t(scale(t(prolifDat)))
+zz[zz < -3] = -3
+zz[zz >  3] =  3
+
+heatmap.2(zz, trace='none', scale='none', col='bluered', 
+          labRow = uppAnnot$Gene.symbol[prolifRows])
+
+prolifMean = colMeans(prolifDat)
+
+oo = order(prolifMean)
+prolifCol = bluered(length(prolifMean))[rank(prolifMean)]
+heatmap.2(zz[,oo], trace='none', scale='none', col='bluered', 
+          labRow = uppAnnot$Gene.symbol[prolifRows], Colv=FALSE,
+          ColSideColors=prolifCol[oo])
+
+
+```{r}
+ggplot(data=uppClin, aes(x=as.factor(grade), y=prolifMean)) + geom_boxplot()
+```
+
+```{r}
+ggplot(data=uppClin, aes(x=as.factor(subtype), y=prolifMean)) + geom_boxplot()
+```
+
+```{r}
+prolifHilo = ifelse(prolifMean > 7, "HighProilif", "LowProlif")
+
+table(prolifHilo)
+
+table(grade, prolifHilo)
+```
+
+```{r}
+plot( survfit(Surv(t.rfs, e.rfs) ~ prolifHilo ), col=1:2, 
+      xlab="Time (years)", ylab = "Proportion recurrence free")
+groups <- names(table(prolifHilo))
+legend('bottomleft', groups, fill=1:2)
+```
