@@ -9,7 +9,7 @@ output: html_document
 knitr::opts_chunk$set(echo = TRUE)
 ```
 
-In this lab we will be using the R computing environment to perfom a basic analysis of
+In this lab we will be using the R computing environment to perform a basic analysis of
 gene expression data from a breast cancer data set.
 
 The data we will be using comes from the following publication:
@@ -25,7 +25,7 @@ Click on the Windows Start Menu in the bottom left of the Student Desktop, and o
 ### Installation
 
 In order to access the data and commands needed for this lab, we first need to install some add-on packages.
-Run the commands below in R to do this (you can just cut and paste these commands into the R console - if you're not sure what this means, I'll show you on projector):
+Run the commands below in R to do this (you can just cut and paste these commands into the R console - if you're not sure what this means, just let me know):
 
 ```{r, eval=F}
 dir.create('Rlibs')
@@ -53,8 +53,8 @@ library(gplots)
 
 ### Load data
 
-Unfortunately, due to the way in which the student desktop is set up, the package that conatins that data,
-`breastCancerUPP` can't eaily be installed.  I have instead created a data file containing the reqired 
+Unfortunately, due to the way in which the student desktop is set up, the package that contains that data,
+`breastCancerUPP` can't easily be installed.  I have instead created a data file containing the required 
 information, that can be loaded via the following command:
 
 ```{r, echo=TRUE, eval=FALSE, message=FALSE, warning=FALSE}
@@ -163,7 +163,7 @@ knitr::kable(datTab)
 
 #### Plots of clinical data
 
-Let's make some plots: we are using the `ggplot2` framework for plotting.  The first part of each plot specification (the `ggplot` part) provides information at the data object to be used (`uppClinSmall`) and the variable(s) of interest (`size`).  The next piece (the `geom_` part) tells R what sort of plot we want to make - in this case it is a historgram (`geom_histogram()`).  The details inside the `geom_histogram` function specificy the bar colours (outline and fill), and the `xlab`, `ylab` and `ggtitle` commands specify the axis labels and plot title:
+Let's make some plots: we are using the `ggplot2` framework for plotting.  The first part of each plot specification (the `ggplot` part) provides information at the data object to be used (`uppClinSmall`) and the variable(s) of interest (`size`).  The next piece (the `geom_` part) tells R what sort of plot we want to make - in this case it is a histogram (`geom_histogram()`).  The details inside the `geom_histogram` function specify the bar colours (outline and fill), and the `xlab`, `ylab` and `ggtitle` commands specify the axis labels and plot title:
 
 ```{r, warning=FALSE, message=FALSE}
 ggplot(data=uppClinSmall, aes(x=size)) + 
@@ -213,13 +213,13 @@ What do you conclude about the relationship between ER status and tumour size?
 
 #### Tables of clinical data
 
-We can also use R to generate tables realting to the clinical variables.  For example, ER status:
+We can also use R to generate tables relating to the clinical variables.  For example, ER status:
 
 ```{r}
 table(er)
 ```
 
-We can also calculate proportions using teh `prop.table` command:
+We can also calculate proportions using the `prop.table` command:
 
 ```{r}
 table(grade)
@@ -245,7 +245,7 @@ prop.table(table(er, grade),1)
 prop.table(table(er, grade),2)
 ```
 
-If we want to test whether two variables are significantly associated, Fisher's Exact Test can be applied to teh contingency table:
+If we want to test whether two variables are significantly associated, Fisher's Exact Test can be applied to the contingency table:
 
 ```{r}
 fisher.test(table(er, grade))
@@ -262,7 +262,7 @@ __Challenge 3:__ _Generate a table of ER status versus Lymph Node Status, and de
 ### Molecular subtyping
 
 We can use the microarray data to generate a _molecular subtype_ for each tumour.  To do this we use the 
-`molecular.subtyping` command from the `genefu` package.  There are a number of subtyping methods available - we are using teh popular "PAM50" approach, which uses teh expression patterms of collection of 50 genes to put
+`molecular.subtyping` command from the `genefu` package.  There are a number of subtyping methods available - we are using the popular "PAM50" approach, which uses the expression patterns of collection of 50 genes to put
 each tumour into one of five subtypes: Basal-like, Her2/Neu, Luminal A, Luminal B and Normal-like.  The command parameters specify the subtyping model to be used (`pam50`), the gene expression data (`uppExp` - note that the matrix needs to be transposed (rotated 90 degrees), hence the `t()` function), and annotation information linking probes to genes (`uppAnnot`).  You can use the R help facility (via `?molecular.subtyping`) to find out what the `do.mapping` parameter does, if you are interested.  :)
 
 ```{r}
@@ -301,7 +301,7 @@ round( prop.table( table(subtype, er), 1) ,3)
 
 Which approach do you prefer?
 
-__Challenge 4:__ _Modify the code above to investigate the relationship between Grade and Subtype. Which subtype has the highest proportion of Grade 3 tumours?  Is the association between Grade and Subtupe statistically significant?_
+__Challenge 4:__ _Modify the code above to investigate the relationship between Grade and Subtype. Which subtype has the highest proportion of Grade 3 tumours?  Is the association between Grade and Subtype statistically significant?_
 
 ```{r, echo=FALSE, eval=FALSE}
 table(subtype, grade)
