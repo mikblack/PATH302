@@ -25,7 +25,7 @@ Click on the Windows Start Menu in the bottom left of the Student Desktop, and o
 ### Installation
 
 In order to access the data and commands needed for this lab, we first need to install some add-on packages.
-Run the commands below in R to do this:
+Run the commands below in R to do this (you can just cut and paste these commands into the R console - if you're not sure what this means, I'll show you on projector):
 
 ```{r, eval=F}
 dir.create('Rlibs')
@@ -57,16 +57,22 @@ Unfortunately, due to the way in which the student desktop is set up, the packag
 `breastCancerUPP` can't eaily be installed.  I have instead created a data file containing the reqired 
 information, that can be loaded via the following command:
 
-```{r}
+```{r, echo=TRUE, eval=FALSE, message=FALSE, warning=FALSE}
 library(httr)
 load(url("https://github.com/mikblack/PATH302/raw/master/uppsalaCohort.RData"))
-response <- GET(url="https://www.dropbox.com/s/r48x5ruk449dwf2/uppsalaCohort.RData?dl=0")
-load(rawConnection(response$content))
 ```
+
+```{r, echo=FALSE, eval=TRUE}
+load("uppsalaCohort.RData")
+```
+
+Now that the data file has been loaded, we can access the Uppsala cohort data:
 
 ```{r}
 data(upp)
 ```
+
+This loads a data object called `upp` which holds LOTS of relevant information.  We are interested in data about: gene expression, microarray probe annotation (so we can understand what gene each microarray probe relates to) and clinical information about the patients.
 
 ### Extract cohort data
 
@@ -92,7 +98,7 @@ uppAnnot = featureData(upp)@data
 View(uppAnnot)
 ```
 
-Clinical data
+Clinical data:
 
 ```{r}
 uppClin  = phenoData(upp)@data
@@ -104,20 +110,28 @@ View(uppClin)
 
 ### Clinical data
 
-Select subset of variables
+From looking at the clinical data (using the  `View()` command), it is clear that some of the variables
+contain no useful information.  Let's select a subset of variables:
 
 ```{r}
 uppClinSmall = uppClin[,c("size", "age", "er", "grade", "pgr", 
                           "node", "t.rfs", "e.rfs","treatment")]
 ```
 
-Convert RFS time to years (from 'days')
+Now we have a smaller data object to work will.  Take a look:
+
+```{r, eval=FALSE}
+View(uppClinSmall)
+```
+
+Note that the "recurrence free survival time", `rfs.t` variable is given in "days", but "years" is
+easier to interpret.  Convert RFS time to years (from 'days'):
 
 ```{r}
 uppClinSmall$t.rfs = uppClinSmall$t.rfs / 365
 ```
 
-Attached data so that we can directly access the clinical variables by name
+Attach data so that we can directly access the clinical variables by name
 
 ```{r}
 attach(uppClinSmall)
@@ -129,75 +143,147 @@ For example:
 grade
 ```
 
-Examine some data
+The clinical variables are:
 
-```{r}
+```{r, echo=FALSE}
+desc = c("Tumour Size (cm)",
+         "Patient age at diagnosis (years)",
+         "Estrogen receptor status (0=negative, 1=positive)",
+         "Tumour Grade (1, 2, or 3)",
+         "Progesterone receptor status (0=negative, 1=positive)",
+         "Lymph node status (0=negative, 1=positive)",
+         "Recurrence free survival time (years)",
+         "Recurrence free survival event (0=censored, 1=recurrence)",
+         "Treatment (0=none, 2=endocrine treatment or chemotherapy")
+datTab = data.frame(Variable = names(uppClinSmall),
+                    Description = desc)
+knitr::kable(datTab)
+```
+
+
+#### Plots of clinical data
+
+Let's make some plots: we are using the `ggplot2` framework for plotting.  The first part of each plot specification (the `ggplot` part) provides information at the data object to be used (`uppClinSmall`) and the variable(s) of interest (`size`).  The next piece (the `geom_` part) tells R what sort of plot we want to make - in this case it is a historgram (`geom_histogram()`).  The details inside the `geom_histogram` function specificy the bar colours (outline and fill), and the `xlab`, `ylab` and `ggtitle` commands specify the axis labels and plot title:
+
+```{r, warning=FALSE, message=FALSE}
 ggplot(data=uppClinSmall, aes(x=size)) + 
   geom_histogram(fill="white", colour="black") +
   xlab("Tumour Size") +
-  ylab("Frequency")
+  ylab("Frequency") + 
+  ggtitle("Uppsala cohort: tumour size")
 ```
 
-```{r}
+__Challenge 1:__ _modify the code above to produce the following graph:_
+
+```{r, echo=FALSE, warning=FALSE, message=FALSE}
 ggplot(data=uppClinSmall, aes(x=age)) + 
   geom_histogram(fill="white", colour="black") +
   xlab("Age") +
-  ylab("Frequency")
+  ylab("Frequency") + 
+  ggtitle("Uppsala cohort: patient age")
 ```
 
+There are __LOTS__ of plots we can make.  Here's a boxplot:
 
 ```{r}
 ggplot(data=uppClinSmall, aes(x=as.factor(grade),y=size)) + 
   geom_boxplot()
 ```
 
+Get rid of the annoying large `size` value using the `ylim` command to change the limits on the y-axis, 
+and the `NA` values in `grade` using the `subset` command:
+
 ```{r}
-ggplot(data=uppClinSmall, aes(x=as.factor(grade),y=size)) + 
+ggplot(data=subset(uppClinSmall, !is.na(grade)), aes(x=as.factor(grade),y=size)) + 
   geom_boxplot() +
-  ylim(0,7)
+  ylim(0,7) +
+  ggtitle("Uppsala cohort: tumour size versus grade")
 ```
+
+__Challenge 2:__ _Modify the code above to generate the following plot:_
+
+```{r, echo=FALSE, warning=FALSE, message=FALSE}
+ggplot(data=subset(uppClinSmall, !is.na(er)), aes(x=as.factor(er),y=size)) + 
+  geom_boxplot() + 
+  ylim(0,7) +
+  ggtitle("Uppsala cohort: tumour size versus age")
+```
+
+What do you conclude about the relationship between ER status and tumour size?
+
+#### Tables of clinical data
+
+We can also use R to generate tables realting to the clinical variables.  For example, ER status:
 
 ```{r}
 table(er)
 ```
 
+We can also calculate proportions using teh `prop.table` command:
+
 ```{r}
 table(grade)
-prop.table(table(grade))
+prop.table( table(grade) )
 ```
+
+Adding a second variable to the `table` command creates a two-way contingency table:
 
 ```{r}
 table(er, grade)
+```
 
+The `prop.table` command then provides multiple options:
+
+```{r}
+## Overall proportions:
 prop.table(table(er, grade))
 
+## Proportions by row (rows sum to 1)
 prop.table(table(er, grade),1)
 
+## Proportions by columns (columns sum to 1)
 prop.table(table(er, grade),2)
 ```
 
-```{r}
-chisq.test(table(er, grade))
+If we want to test whether two variables are significantly associated, Fisher's Exact Test can be applied to teh contingency table:
 
+```{r}
 fisher.test(table(er, grade))
 ```
 
-### Molecular subtyping
+Alternatively the Chi-squared test (which is an approximation) can be used:
 
 ```{r}
-# Perform subtyping using PAM50
-# Note that the expression data matrix needs to be transposed.
-PAM50Preds<-molecular.subtyping(sbt.model = "pam50",data=t(uppExp),
-                                annot=uppAnnot,do.mapping=TRUE)
+chisq.test(table(er, grade))
+```
+
+__Challenge 3:__ _Generate a table of ER status versus Lymph Node Status, and determine whether they are significantly associated with each other._
+
+### Molecular subtyping
+
+We can use the microarray data to generate a _molecular subtype_ for each tumour.  To do this we use the 
+`molecular.subtyping` command from the `genefu` package.  There are a number of subtyping methods available - we are using teh popular "PAM50" approach, which uses teh expression patterms of collection of 50 genes to put
+each tumour into one of five subtypes: Basal-like, Her2/Neu, Luminal A, Luminal B and Normal-like.  The command parameters specify the subtyping model to be used (`pam50`), the gene expression data (`uppExp` - note that the matrix needs to be transposed (rotated 90 degrees), hence the `t()` function), and annotation information linking probes to genes (`uppAnnot`).  You can use the R help facility (via `?molecular.subtyping`) to find out what the `do.mapping` parameter does, if you are interested.  :)
+
+```{r}
+PAM50Preds = molecular.subtyping(sbt.model = "pam50", data=t(uppExp),
+                                annot=uppAnnot, do.mapping=TRUE)
+```
+
+This produces the following subtype information:
+
+```{r}
 table(PAM50Preds$subtype)
 ```
 
-Add this information to the clinical data:
+We can add this information to the clinical data:
 
-```{r}
+```{r, warning=FALSE, message=FALSE}
 uppClin$subtype = PAM50Preds$subtype
 attach(uppClin)
 ```
+
+Compare Subtype to ER status:
 
 ```{r}
 table(subtype, er)
@@ -207,13 +293,21 @@ table(subtype, er) %>%
   round(., 3)
 ```
 
+Note - the use of the "pipe" operator, `%>%` illustrates a fancy (and more readable) way of writing
+
 ```{r}
+round( prop.table( table(subtype, er), 1) ,3)
+```
+
+Which approach do you prefer?
+
+__Challenge 4:__ _Modify the code above to investigate the relationship between Grade and Subtype. Which subtype has the highest proportion of Grade 3 tumours?  Is the association between Grade and Subtupe statistically significant?_
+
+```{r, echo=FALSE, eval=FALSE}
 table(subtype, grade)
 table(subtype, grade) %>% 
   prop.table(., 1) %>% 
   round(., 3)
-
-round( prop.table( table(subtype, grade), 1), 3)
 ```
 
 ### Survival analysis
@@ -277,8 +371,15 @@ match("205221_at", rownames(uppExp))
 esr1Dat = uppExp[match("205221_at", rownames(uppExp)), ]
 ```
 
+To make things easy, lets add this variable to our clinical data:
+
+```{r, warning=FALSE, message=FALSE}
+uppClinSmall$esr1Dat = esr1Dat
+attach(uppClinSmall)
+```
+
 ```{r}
-ggplot(data=uppClinSmall, aes(x=as.factor(er), y=esr1Dat)) + geom_boxplot()
+ggplot(data=subset(uppClinSmall, !is.na(er)), aes(x=as.factor(er), y=esr1Dat)) + geom_boxplot()
 ```
 
 ### Proliferation genes
@@ -292,8 +393,8 @@ The genes below are involved in proliferation:
 #                "BUB3","FEN1","DBF4B","MOB4","CCNE1","RPA1","POLE3","RFC4","MCM3",
 #                "CHEK1","CCND1","CDC37")
 prolifGenes = c("MAD2L1", "RRM2", "ANLN", "MCM6", "PBK", "GINS2", "KPNA2", "PCNA")
-kable(data.frame(Gene=prolifGenes, 
-                 Probe=uppAnnot$probe[match(prolifGenes, uppAnnot$Gene.symbol)]))
+knitr::kable(data.frame(Gene=prolifGenes, 
+                        Probe=uppAnnot$probe[match(prolifGenes, uppAnnot$Gene.symbol)]))
 ```
 
 ```{r}
