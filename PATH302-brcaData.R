@@ -1,6 +1,16 @@
 ## ----setup, include=FALSE------------------------------------------------
 knitr::opts_chunk$set(echo = TRUE)
 
+## ---- eval=F-------------------------------------------------------------
+## dir.create('Rlibs')
+## newPath = c(.libPaths(), paste0(getwd(), "/Rlibs"))
+## .libPaths(newPath)
+## 
+## install.packages('BiocInstaller', repos='http://www.bioconductor.org/packages/3.4/bioc', lib='Rlibs')
+## library(BiocInstaller, lib.loc="Rlibs")
+## biocLite("Biobase", lib="Rlibs")
+## library("Biobase", lib.loc="Rlibs")
+
 ## ---- warning=FALSE, message=FALSE---------------------------------------
 library(ggplot2)
 library(dplyr)

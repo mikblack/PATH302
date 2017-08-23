@@ -139,29 +139,58 @@ newPath = c(.libPaths(), paste0(getwd(), &quot;/Rlibs&quot;))
 .libPaths(newPath)
 
 install.packages('BiocInstaller', repos='http://www.bioconductor.org/packages/3.4/bioc', lib='Rlibs')
-
-install.packages('dplyr', lib='Rlibs')
-install.packages('ggplot2', lib='Rlibs')
-install.packages('gplots', lib='Rlibs')
-
 library(BiocInstaller, lib.loc=&quot;Rlibs&quot;)
-biocLite(&quot;genefu&quot;, lib=&quot;Rlibs&quot;)</code></pre>
+biocLite(&quot;Biobase&quot;, lib=&quot;Rlibs&quot;)
+library(&quot;Biobase&quot;, lib.loc=&quot;Rlibs&quot;)</code></pre>
 </div>
 <div id="load-packages" class="section level3">
 <h3>Load packages</h3>
-<pre class="r"><code>library(genefu)
-library(ggplot2)
+<p>The following commands load packages that we will use in our analysis.</p>
+<pre class="r"><code>library(ggplot2)
 library(dplyr)
 library(gplots)
-library(survival)</code></pre>
+library(survival)
+library(httr)</code></pre>
 </div>
 <div id="load-data" class="section level3">
 <h3>Load data</h3>
 <p>Unfortunately, due to the way in which the student desktop is set up, the package that contains that data, <code>breastCancerUPP</code> can’t easily be installed. I have instead created a data file containing the required information, that can be loaded via the following command:</p>
-<pre class="r"><code>library(httr)
-load(url(&quot;https://github.com/mikblack/PATH302/raw/master/uppsalaCohort.RData&quot;))</code></pre>
-<pre><code>## Warning in data(upp): data set 'upp' not found</code></pre>
-<p>This loads a data object called <code>upp</code> which holds LOTS of relevant information about the Uppsala breast cancer cohort. We are interested in data about: gene expression, microarray probe annotation (so we can understand what gene each microarray probe relates to) and clinical information about the patients.</p>
+<pre class="r"><code>load(url(&quot;https://github.com/mikblack/PATH302/raw/master/uppsalaCohort.RData&quot;))</code></pre>
+<pre><code>## Loading required package: BiocGenerics</code></pre>
+<pre><code>## Loading required package: parallel</code></pre>
+<pre><code>## 
+## Attaching package: 'BiocGenerics'</code></pre>
+<pre><code>## The following objects are masked from 'package:parallel':
+## 
+##     clusterApply, clusterApplyLB, clusterCall, clusterEvalQ,
+##     clusterExport, clusterMap, parApply, parCapply, parLapply,
+##     parLapplyLB, parRapply, parSapply, parSapplyLB</code></pre>
+<pre><code>## The following objects are masked from 'package:dplyr':
+## 
+##     combine, intersect, setdiff, union</code></pre>
+<pre><code>## The following objects are masked from 'package:stats':
+## 
+##     IQR, mad, xtabs</code></pre>
+<pre><code>## The following objects are masked from 'package:base':
+## 
+##     anyDuplicated, append, as.data.frame, cbind, colnames,
+##     do.call, duplicated, eval, evalq, Filter, Find, get, grep,
+##     grepl, intersect, is.unsorted, lapply, lengths, Map, mapply,
+##     match, mget, order, paste, pmax, pmax.int, pmin, pmin.int,
+##     Position, rank, rbind, Reduce, rownames, sapply, setdiff,
+##     sort, table, tapply, union, unique, unsplit, which, which.max,
+##     which.min</code></pre>
+<pre><code>## Welcome to Bioconductor
+## 
+##     Vignettes contain introductory material; view with
+##     'browseVignettes()'. To cite Bioconductor, see
+##     'citation(&quot;Biobase&quot;)', and for packages 'citation(&quot;pkgname&quot;)'.</code></pre>
+<pre><code>## 
+## Attaching package: 'Biobase'</code></pre>
+<pre><code>## The following object is masked from 'package:httr':
+## 
+##     content</code></pre>
+<p>This loads a data object called <code>upp</code> which holds LOTS of relevant information about the Uppsala breast cancer cohort. We are interested in data about: gene expression, microarray probe annotation (so we can understand what gene each microarray probe relates to) and clinical information about the patients. It also loads an object called <code>PAM50Preds</code> which we’ll use later.</p>
 </div>
 <div id="extract-cohort-data" class="section level3">
 <h3>Extract cohort data</h3>
@@ -334,7 +363,10 @@ prop.table(table(er, grade),2)</code></pre>
 <div id="molecular-subtyping" class="section level3">
 <h3>Molecular subtyping</h3>
 <p>We can use the microarray data to generate a <em>molecular subtype</em> for each tumour. To do this we use the <code>molecular.subtyping</code> command from the <code>genefu</code> package. There are a number of subtyping methods available - we are using the popular “PAM50” approach, which uses the expression patterns of collection of 50 genes to put each tumour into one of five subtypes: Basal-like, Her2/Neu, Luminal A, Luminal B and Normal-like. The command parameters specify the subtyping model to be used (<code>pam50</code>), the gene expression data (<code>uppExp</code> - note that the matrix needs to be transposed (rotated 90 degrees), hence the <code>t()</code> function), and annotation information linking probes to genes (<code>uppAnnot</code>). You can use the R help facility (via <code>?molecular.subtyping</code>) to find out what the <code>do.mapping</code> parameter does, if you are interested. :)</p>
-<pre class="r"><code>PAM50Preds = molecular.subtyping(sbt.model = &quot;pam50&quot;, data=t(uppExp),
+<p><strong>YOU DON’T NEED TO RUN THE NEXT BLOCK OF CODE.</strong></p>
+<p><strong>the <code>genefu</code> package that performs the molecular subtyping is annoying to install, because it has a large number of package dependencies. As a results, I have peformed this for you, using the code below, and the object <code>PAM50Preds</code> was loaded with the Uppsala cohort data above.</strong></p>
+<pre class="r"><code>library(genefu)
+PAM50Preds = molecular.subtyping(sbt.model = &quot;pam50&quot;, data=t(uppExp),
                                 annot=uppAnnot, do.mapping=TRUE)</code></pre>
 <p>This produces the following subtype information:</p>
 <pre class="r"><code>table(PAM50Preds$subtype)</code></pre>

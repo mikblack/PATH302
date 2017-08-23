@@ -22,6 +22,22 @@ It comprises microarray and clinical data generated from tumour samples obtained
 
 Click on the Windows Start Menu in the bottom left of the Student Desktop, and open the RStudio application.
 
+### Installation
+
+In order to access the data and commands needed for this lab, we first need to install some add-on packages.
+Run the commands below in R to do this (you can just cut and paste these commands into the R console - if you're not sure what this means, just let me know):
+
+```{r, eval=F}
+dir.create('Rlibs')
+newPath = c(.libPaths(), paste0(getwd(), "/Rlibs"))
+.libPaths(newPath)
+
+install.packages('BiocInstaller', repos='http://www.bioconductor.org/packages/3.4/bioc', lib='Rlibs')
+library(BiocInstaller, lib.loc="Rlibs")
+biocLite("Biobase", lib="Rlibs")
+library("Biobase", lib.loc="Rlibs")
+```
+
 ### Load packages
 
 The following commands load packages that we will use in our analysis.
@@ -45,6 +61,7 @@ load(url("https://github.com/mikblack/PATH302/raw/master/uppsalaCohort.RData"))
 ```
 
 ```{r, echo=FALSE, eval=TRUE}
+library(Biobase)
 load("uppsalaCohort.RData")
 ```
 
