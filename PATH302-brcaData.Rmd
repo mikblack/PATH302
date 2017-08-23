@@ -552,6 +552,6 @@ __Challenge 9:__ _What does the plot above tell you about the relationship betwe
 
 If we have a massive problem with installing packages at the start of the session, this link:
 
-https://www.dropbox.com/s/0l6s67u50l8h5rt/PATH302-packages.zip?dl=0
+https://www.dropbox.com/s/jjysy4iv65ptqfv/PATH302-packages.zip?dl=0
 
 points to a zip file containing all of the R packages we need to install.  If necessary we can download this, unzip it, and then install the packages manually.  Let's hope it doesn't come to that...
