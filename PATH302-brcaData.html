@@ -156,40 +156,6 @@ library(httr)</code></pre>
 <h3>Load data</h3>
 <p>Unfortunately, due to the way in which the student desktop is set up, the package that contains that data, <code>breastCancerUPP</code> can’t easily be installed. I have instead created a data file containing the required information, that can be loaded via the following command:</p>
 <pre class="r"><code>load(url(&quot;https://github.com/mikblack/PATH302/raw/master/uppsalaCohort.RData&quot;))</code></pre>
-<pre><code>## Loading required package: BiocGenerics</code></pre>
-<pre><code>## Loading required package: parallel</code></pre>
-<pre><code>## 
-## Attaching package: 'BiocGenerics'</code></pre>
-<pre><code>## The following objects are masked from 'package:parallel':
-## 
-##     clusterApply, clusterApplyLB, clusterCall, clusterEvalQ,
-##     clusterExport, clusterMap, parApply, parCapply, parLapply,
-##     parLapplyLB, parRapply, parSapply, parSapplyLB</code></pre>
-<pre><code>## The following objects are masked from 'package:dplyr':
-## 
-##     combine, intersect, setdiff, union</code></pre>
-<pre><code>## The following objects are masked from 'package:stats':
-## 
-##     IQR, mad, xtabs</code></pre>
-<pre><code>## The following objects are masked from 'package:base':
-## 
-##     anyDuplicated, append, as.data.frame, cbind, colnames,
-##     do.call, duplicated, eval, evalq, Filter, Find, get, grep,
-##     grepl, intersect, is.unsorted, lapply, lengths, Map, mapply,
-##     match, mget, order, paste, pmax, pmax.int, pmin, pmin.int,
-##     Position, rank, rbind, Reduce, rownames, sapply, setdiff,
-##     sort, table, tapply, union, unique, unsplit, which, which.max,
-##     which.min</code></pre>
-<pre><code>## Welcome to Bioconductor
-## 
-##     Vignettes contain introductory material; view with
-##     'browseVignettes()'. To cite Bioconductor, see
-##     'citation(&quot;Biobase&quot;)', and for packages 'citation(&quot;pkgname&quot;)'.</code></pre>
-<pre><code>## 
-## Attaching package: 'Biobase'</code></pre>
-<pre><code>## The following object is masked from 'package:httr':
-## 
-##     content</code></pre>
 <p>This loads a data object called <code>upp</code> which holds LOTS of relevant information about the Uppsala breast cancer cohort. We are interested in data about: gene expression, microarray probe annotation (so we can understand what gene each microarray probe relates to) and clinical information about the patients. It also loads an object called <code>PAM50Preds</code> which we’ll use later.</p>
 </div>
 <div id="extract-cohort-data" class="section level3">
