@@ -1,36 +1,18 @@
 ## ----setup, include=FALSE------------------------------------------------
 knitr::opts_chunk$set(echo = TRUE)
 
-## ---- eval=F-------------------------------------------------------------
-## dir.create('Rlibs')
-## newPath = c(.libPaths(), paste0(getwd(), "Rlibs"))
-## .libPaths(newPath)
-## 
-## install.packages('BiocInstaller', repos='http://www.bioconductor.org/packages/3.4/bioc', lib='Rlibs')
-## 
-## install.packages('dplyr', lib='Rlibs')
-## install.packages('ggplot2', lib='Rlibs')
-## install.packages('gplots', lib='Rlibs')
-## install.packages('dplyr', lib='Rlibs')
-## 
-## biocLite("genefu", lib="Rlibs")
-
 ## ---- warning=FALSE, message=FALSE---------------------------------------
-library(genefu)
 library(ggplot2)
 library(dplyr)
 library(gplots)
 library(survival)
+library(httr)
 
 ## ---- echo=TRUE, eval=FALSE, message=FALSE, warning=FALSE----------------
-## library(httr)
 ## load(url("https://github.com/mikblack/PATH302/raw/master/uppsalaCohort.RData"))
 
 ## ---- echo=FALSE, eval=TRUE----------------------------------------------
 load("uppsalaCohort.RData")
-
-## ------------------------------------------------------------------------
-data(upp)
 
 ## ------------------------------------------------------------------------
 uppExp   = exprs(upp)
@@ -136,9 +118,10 @@ fisher.test(table(er, grade))
 ## ------------------------------------------------------------------------
 chisq.test(table(er, grade))
 
-## ------------------------------------------------------------------------
-PAM50Preds = molecular.subtyping(sbt.model = "pam50", data=t(uppExp),
-                                annot=uppAnnot, do.mapping=TRUE)
+## ---- eval=FALSE---------------------------------------------------------
+## library(genefu)
+## PAM50Preds = molecular.subtyping(sbt.model = "pam50", data=t(uppExp),
+##                                 annot=uppAnnot, do.mapping=TRUE)
 
 ## ------------------------------------------------------------------------
 table(PAM50Preds$subtype)
@@ -281,4 +264,13 @@ plot( survfit(Surv(t.rfs, e.rfs) ~ prolifHilo ), col=1:2,
       xlab="Time (years)", ylab = "Proportion recurrence free")
 groups <- names(table(prolifHilo))
 legend('bottomleft', groups, fill=1:2)
+
+## ---- echo=FALSE, eval=FALSE---------------------------------------------
+## ### IN CASE OF INSTALL DISASTER
+## 
+## #If we have a massive problem with installing packages at the start of the session, this link:
+## 
+## #https://www.dropbox.com/s/jjysy4iv65ptqfv/PATH302-packages.zip?dl=0
+## 
+## #points to a zip file containing all of the R packages we need to install.  If necessary we can download this, unzip it, and then install the packages manually.  Let's hope it doesn't come to that...
 
