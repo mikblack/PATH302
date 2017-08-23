@@ -22,34 +22,16 @@ It comprises microarray and clinical data generated from tumour samples obtained
 
 Click on the Windows Start Menu in the bottom left of the Student Desktop, and open the RStudio application.
 
-### Installation
-
-In order to access the data and commands needed for this lab, we first need to install some add-on packages.
-Run the commands below in R to do this (you can just cut and paste these commands into the R console - if you're not sure what this means, just let me know):
-
-```{r, eval=F}
-dir.create('Rlibs')
-newPath = c(.libPaths(), paste0(getwd(), "/Rlibs"))
-.libPaths(newPath)
-
-install.packages('BiocInstaller', repos='http://www.bioconductor.org/packages/3.4/bioc', lib='Rlibs')
-
-install.packages('dplyr', lib='Rlibs')
-install.packages('ggplot2', lib='Rlibs')
-install.packages('gplots', lib='Rlibs')
-
-library(BiocInstaller, lib.loc="Rlibs")
-biocLite("genefu", lib="Rlibs")
-```
-
 ### Load packages
 
+The following commands load packages that we will use in our analysis.
+
 ```{r, warning=FALSE, message=FALSE}
-library(genefu)
 library(ggplot2)
 library(dplyr)
 library(gplots)
 library(survival)
+library(httr)
 ```
 
 ### Load data
@@ -59,16 +41,15 @@ Unfortunately, due to the way in which the student desktop is set up, the packag
 information, that can be loaded via the following command:
 
 ```{r, echo=TRUE, eval=FALSE, message=FALSE, warning=FALSE}
-library(httr)
 load(url("https://github.com/mikblack/PATH302/raw/master/uppsalaCohort.RData"))
 ```
 
 ```{r, echo=FALSE, eval=TRUE}
 load("uppsalaCohort.RData")
-data(upp)
 ```
 
-This loads a data object called `upp` which holds LOTS of relevant information about the Uppsala breast cancer cohort.  We are interested in data about: gene expression, microarray probe annotation (so we can understand what gene each microarray probe relates to) and clinical information about the patients.
+This loads a data object called `upp` which holds LOTS of relevant information about the Uppsala breast cancer cohort.  We are interested in data about: gene expression, microarray probe annotation (so we can understand what gene each microarray probe relates to) and clinical information about the patients.  It also loads an object called 
+`PAM50Preds` which we'll use later.
 
 ### Extract cohort data
 
@@ -262,7 +243,13 @@ We can use the microarray data to generate a _molecular subtype_ for each tumour
 `molecular.subtyping` command from the `genefu` package.  There are a number of subtyping methods available - we are using the popular "PAM50" approach, which uses the expression patterns of collection of 50 genes to put
 each tumour into one of five subtypes: Basal-like, Her2/Neu, Luminal A, Luminal B and Normal-like.  The command parameters specify the subtyping model to be used (`pam50`), the gene expression data (`uppExp` - note that the matrix needs to be transposed (rotated 90 degrees), hence the `t()` function), and annotation information linking probes to genes (`uppAnnot`).  You can use the R help facility (via `?molecular.subtyping`) to find out what the `do.mapping` parameter does, if you are interested.  :)
 
-```{r}
+__YOU DON'T NEED TO RUN THE NEXT BLOCK OF CODE.__
+
+__the `genefu` package that performs the molecular subtyping is annoying to install, because it has a large number of package dependencies.  As a results, I have peformed this for you, using the code below, and the object 
+`PAM50Preds` was loaded with the Uppsala cohort data above.__
+
+```{r, eval=FALSE}
+library(genefu)
 PAM50Preds = molecular.subtyping(sbt.model = "pam50", data=t(uppExp),
                                 annot=uppAnnot, do.mapping=TRUE)
 ```
