@@ -21,7 +21,8 @@ library(httr)
 ## ---- echo=TRUE, eval=FALSE, message=FALSE, warning=FALSE----------------
 ## load(url("https://github.com/mikblack/PATH302/raw/master/uppsalaCohort.RData"))
 
-## ---- echo=FALSE, eval=TRUE----------------------------------------------
+## ---- echo=FALSE, eval=TRUE, message=FALSE, warning=FALSE----------------
+library(Biobase)
 load("uppsalaCohort.RData")
 
 ## ------------------------------------------------------------------------
