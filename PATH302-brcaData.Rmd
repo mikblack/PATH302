@@ -552,12 +552,15 @@ legend('bottomleft', groups, fill=1:2)
 
 __Challenge 9:__ _What does the plot above tell you about the relationship between proliferative activity in the tumour, and recurrence free survival?_
 
-```{r, echo=FALSE, eval=FALSE}
 ### IN CASE OF INSTALL DISASTER
 
-#If we have a massive problem with installing packages at the start of the session, this link:
+If we have a problem with installing packages at the start of the session, this command:
 
-#https://www.dropbox.com/s/jjysy4iv65ptqfv/PATH302-packages.zip?dl=0
+```{r, eval=FALSE}
+load(url("https://github.com/mikblack/PATH302/raw/master/uppsalaObjects.RData"))
+```
 
-#points to a zip file containing all of the R packages we need to install.  If necessary we can download this, unzip it, and then install the packages manually.  Let's hope it doesn't come to that...
+will load a file contains the `uppExp`, `uppAnnot` and `uppClin` objects, which will remove the need to have 
+the Bioconductor packages installed.
+
 ```

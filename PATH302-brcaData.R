@@ -276,12 +276,6 @@ plot( survfit(Surv(t.rfs, e.rfs) ~ prolifHilo ), col=1:2,
 groups <- names(table(prolifHilo))
 legend('bottomleft', groups, fill=1:2)
 
-## ---- echo=FALSE, eval=FALSE---------------------------------------------
-## ### IN CASE OF INSTALL DISASTER
-## 
-## #If we have a massive problem with installing packages at the start of the session, this link:
-## 
-## #https://www.dropbox.com/s/jjysy4iv65ptqfv/PATH302-packages.zip?dl=0
-## 
-## #points to a zip file containing all of the R packages we need to install.  If necessary we can download this, unzip it, and then install the packages manually.  Let's hope it doesn't come to that...
+## ---- eval=FALSE---------------------------------------------------------
+## load(url("https://github.com/mikblack/PATH302/raw/master/uppsalaObjects.RData"))
 
