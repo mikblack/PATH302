@@ -101,7 +101,7 @@ ggplot(data=subset(uppClinSmall, !is.na(grade)), aes(x=as.factor(grade),y=size))
 ggplot(data=subset(uppClinSmall, !is.na(er)), aes(x=as.factor(er),y=size)) + 
   geom_boxplot() + 
   ylim(0,7) +
-  ggtitle("Uppsala cohort: tumour size versus age")
+  ggtitle("Uppsala cohort: tumour size versus ER status")
 
 ## ------------------------------------------------------------------------
 table(er)
@@ -220,6 +220,9 @@ ggplot(data=subset(uppClinSmall, !is.na(er)), aes(x=as.factor(er), y=esr1Dat)) +
 prolifGenes = c("MAD2L1", "RRM2", "ANLN", "MCM6", "PBK", "GINS2", "KPNA2", "PCNA")
 knitr::kable(data.frame(Gene=prolifGenes, 
                         Probe=uppAnnot$probe[match(prolifGenes, uppAnnot$Gene.symbol)]))
+
+## ------------------------------------------------------------------------
+prolifGenes = c("MAD2L1", "RRM2", "ANLN", "MCM6", "PBK", "GINS2", "KPNA2", "PCNA")
 
 ## ------------------------------------------------------------------------
 prolifRows = na.omit(match(prolifGenes, uppAnnot$Gene.symbol))

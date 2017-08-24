@@ -201,7 +201,7 @@ __Challenge 2:__ _Modify the code above to generate the following plot:_
 ggplot(data=subset(uppClinSmall, !is.na(er)), aes(x=as.factor(er),y=size)) + 
   geom_boxplot() + 
   ylim(0,7) +
-  ggtitle("Uppsala cohort: tumour size versus age")
+  ggtitle("Uppsala cohort: tumour size versus ER status")
 ```
 
 What do you conclude about the relationship between ER status and tumour size?
@@ -433,7 +433,13 @@ knitr::kable(data.frame(Gene=prolifGenes,
                         Probe=uppAnnot$probe[match(prolifGenes, uppAnnot$Gene.symbol)]))
 ```
 
-We can use the `match` command to find which rows of the gene expression data set correspond to these proliferation genes.  Note that using `match` only finds the first match to the gene name - if there are multiple probes for a gen, then we will only retrieve the first one.  This is not the best way to operate, but it will suffice for what we are doing here (in practice, we often merge probe data together when there a multiple probes representing a single gene).
+Create an object containing the names of the proliferation genes:
+
+```{r}
+prolifGenes = c("MAD2L1", "RRM2", "ANLN", "MCM6", "PBK", "GINS2", "KPNA2", "PCNA")
+```
+
+We can use the `match` command to find which rows of the gene expression data set correspond to these proliferation genes.  Note that using `match` only finds the first match to the gene name - if there are multiple probes for a gene, then we will only retrieve the first one.  This is not the best way to operate, but it will suffice for what we are doing here (in practice, we often merge probe data together when there a multiple probes representing a single gene).
 
 ```{r}
 prolifRows = na.omit(match(prolifGenes, uppAnnot$Gene.symbol))
