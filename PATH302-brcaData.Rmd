@@ -562,5 +562,3 @@ load(url("https://github.com/mikblack/PATH302/raw/master/uppsalaObjects.RData"))
 
 will load a file contains the `uppExp`, `uppAnnot` and `uppClin` objects, which will remove the need to have 
 the Bioconductor packages installed.
-
-```
