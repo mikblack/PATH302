@@ -1,7 +1,7 @@
 ---
 title: "PATH302 - Breast Cancer Data"
 author: "Mik Black"
-date: "24 August 2017"
+date: "17 August 2018"
 output: html_document
 ---
 
@@ -32,11 +32,15 @@ dir.create('Rlibs')
 newPath = c(.libPaths(), paste0(getwd(), "/Rlibs"))
 .libPaths(newPath)
 
-install.packages('BiocInstaller', repos='http://www.bioconductor.org/packages/3.4/bioc', lib='Rlibs')
+install.packages(c('magrittr','gplots','httr'), lib='Rlibs')
+
+install.packages('BiocInstaller', repos='http://www.bioconductor.org/packages/3.6/bioc', lib='Rlibs')
 library(BiocInstaller, lib.loc="Rlibs")
 biocLite("Biobase", lib="Rlibs")
 library("Biobase", lib.loc="Rlibs")
 ```
+
+Type 'n' (and hit 'enter') if presented with: `Update all/some/none? [a/s/n/]:`
 
 ### Load packages
 
@@ -44,7 +48,7 @@ The following commands load packages that we will use in our analysis.
 
 ```{r, warning=FALSE, message=FALSE}
 library(ggplot2)
-library(dplyr)
+library(magrittr)
 library(gplots)
 library(survival)
 library(httr)
@@ -73,7 +77,7 @@ This loads a data object called `upp` which holds LOTS of relevant information a
 Gene expression data:
 
 ```{r}
-uppExp   = exprs(upp)
+uppExp = exprs(upp)
 ```
 
 View data using RStudio built-in viewer
@@ -262,10 +266,11 @@ each tumour into one of five subtypes: Basal-like, Her2/Neu, Luminal A, Luminal 
 
 __YOU DON'T NEED TO RUN THE NEXT BLOCK OF CODE.__
 
-__the `genefu` package that performs the molecular subtyping is annoying to install, because it has a large number of package dependencies.  As a results, I have peformed this for you, using the code below, and the object 
+__the `genefu` package that performs the molecular subtyping is annoying to install, because it has a large number of package dependencies.  As a result, I have peformed this for you, using the code below, and the object 
 `PAM50Preds` was loaded with the Uppsala cohort data above.__
 
 ```{r, eval=FALSE}
+## DON'T RUN THIS CODE:
 library(genefu)
 PAM50Preds = molecular.subtyping(sbt.model = "pam50", data=t(uppExp),
                                 annot=uppAnnot, do.mapping=TRUE)
@@ -274,6 +279,7 @@ PAM50Preds = molecular.subtyping(sbt.model = "pam50", data=t(uppExp),
 This produces the following subtype information:
 
 ```{r}
+## DO RUN THIS CODE:
 table(PAM50Preds$subtype)
 ```
 
@@ -397,9 +403,20 @@ We need to then figure out what row of the gene expression data this relates to:
 match("205221_at", rownames(uppExp))
 ```
 
-Then we can extract the data from this row:
+Create an object with this value
 
 ```{r}
+esr1probe = match("205221_at", rownames(uppExp))
+```
+
+and then use it to extract the data from that row:
+
+```{r}
+esr1Dat = uppExp[esr1probe, ]
+```
+
+```{r, evel=FALSE, echo=FALSE}
+## Switched to the above to make the code more readable
 esr1Dat = uppExp[match("205221_at", rownames(uppExp)), ]
 ```
 

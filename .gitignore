@@ -2,3 +2,4 @@
 .RData
 *.RData
 *.rproj
+.Rproj.user
