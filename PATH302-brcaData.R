@@ -6,14 +6,16 @@ knitr::opts_chunk$set(echo = TRUE)
 ## newPath = c(.libPaths(), paste0(getwd(), "/Rlibs"))
 ## .libPaths(newPath)
 ## 
-## install.packages('BiocInstaller', repos='http://www.bioconductor.org/packages/3.4/bioc', lib='Rlibs')
+## install.packages(c('magrittr','gplots','httr'), lib='Rlibs')
+## 
+## install.packages('BiocInstaller', repos='http://www.bioconductor.org/packages/3.6/bioc', lib='Rlibs')
 ## library(BiocInstaller, lib.loc="Rlibs")
 ## biocLite("Biobase", lib="Rlibs")
 ## library("Biobase", lib.loc="Rlibs")
 
 ## ---- warning=FALSE, message=FALSE---------------------------------------
 library(ggplot2)
-library(dplyr)
+library(magrittr)
 library(gplots)
 library(survival)
 library(httr)
@@ -26,7 +28,7 @@ library(Biobase)
 load("uppsalaCohort.RData")
 
 ## ------------------------------------------------------------------------
-uppExp   = exprs(upp)
+uppExp = exprs(upp)
 
 ## ---- eval=FALSE---------------------------------------------------------
 ## View(uppExp)
@@ -130,11 +132,13 @@ fisher.test(table(er, grade))
 chisq.test(table(er, grade))
 
 ## ---- eval=FALSE---------------------------------------------------------
+## ## DON'T RUN THIS CODE:
 ## library(genefu)
 ## PAM50Preds = molecular.subtyping(sbt.model = "pam50", data=t(uppExp),
 ##                                 annot=uppAnnot, do.mapping=TRUE)
 
 ## ------------------------------------------------------------------------
+## DO RUN THIS CODE:
 table(PAM50Preds$subtype)
 
 ## ---- warning=FALSE, message=FALSE---------------------------------------
@@ -202,6 +206,13 @@ esr1Probes
 match("205221_at", rownames(uppExp))
 
 ## ------------------------------------------------------------------------
+esr1probe = match("205221_at", rownames(uppExp))
+
+## ------------------------------------------------------------------------
+esr1Dat = uppExp[esr1probe, ]
+
+## ---- evel=FALSE, echo=FALSE---------------------------------------------
+## Switched to the above to make the code more readable
 esr1Dat = uppExp[match("205221_at", rownames(uppExp)), ]
 
 ## ---- warning=FALSE, message=FALSE---------------------------------------
