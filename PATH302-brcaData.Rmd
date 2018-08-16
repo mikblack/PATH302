@@ -37,16 +37,17 @@ install.packages(c('magrittr','gplots','httr'), lib='Rlibs')
 install.packages('BiocInstaller', repos='http://www.bioconductor.org/packages/3.6/bioc', lib='Rlibs')
 library(BiocInstaller, lib.loc="Rlibs")
 biocLite("Biobase", lib="Rlibs")
-library("Biobase", lib.loc="Rlibs")
 ```
 
 Type 'n' (and hit 'enter') if presented with: `Update all/some/none? [a/s/n/]:`
 
 ### Load packages
 
-The following commands load packages that we will use in our analysis.
+The following commands load packages that we will use in our analysis (you can ignore 
+any warnings about packages being built under a different version of R).
 
 ```{r, warning=FALSE, message=FALSE}
+library(Biobase)
 library(ggplot2)
 library(magrittr)
 library(gplots)

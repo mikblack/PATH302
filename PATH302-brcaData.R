@@ -11,9 +11,9 @@ knitr::opts_chunk$set(echo = TRUE)
 ## install.packages('BiocInstaller', repos='http://www.bioconductor.org/packages/3.6/bioc', lib='Rlibs')
 ## library(BiocInstaller, lib.loc="Rlibs")
 ## biocLite("Biobase", lib="Rlibs")
-## library("Biobase", lib.loc="Rlibs")
 
 ## ---- warning=FALSE, message=FALSE---------------------------------------
+library(Biobase)
 library(ggplot2)
 library(magrittr)
 library(gplots)

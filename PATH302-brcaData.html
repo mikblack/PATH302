@@ -144,14 +144,14 @@ install.packages(c('magrittr','gplots','httr'), lib='Rlibs')
 
 install.packages('BiocInstaller', repos='http://www.bioconductor.org/packages/3.6/bioc', lib='Rlibs')
 library(BiocInstaller, lib.loc=&quot;Rlibs&quot;)
-biocLite(&quot;Biobase&quot;, lib=&quot;Rlibs&quot;)
-library(&quot;Biobase&quot;, lib.loc=&quot;Rlibs&quot;)</code></pre>
+biocLite(&quot;Biobase&quot;, lib=&quot;Rlibs&quot;)</code></pre>
 <p>Type ‘n’ (and hit ‘enter’) if presented with: <code>Update all/some/none? [a/s/n/]:</code></p>
 </div>
 <div id="load-packages" class="section level3">
 <h3>Load packages</h3>
-<p>The following commands load packages that we will use in our analysis.</p>
-<pre class="r"><code>library(ggplot2)
+<p>The following commands load packages that we will use in our analysis (you can ignore any warnings about packages being built under a different version of R).</p>
+<pre class="r"><code>library(Biobase)
+library(ggplot2)
 library(magrittr)
 library(gplots)
 library(survival)
