@@ -3,7 +3,7 @@ PATH302 - Breast Cancer Data
 Mik Black
 7 August 2020
 
-<!-- rmarkdown::render("PATH302-brcaData.Rmd", output_format=c("html_document", "github_document")) -->
+<!-- rmarkdown::render("PATH302-brcaData.Rmd", output_format=c("github_document", "html_document")) -->
 
 In this lab we will be using the R computing environment to perform a
 basic analysis of gene expression data from a breast cancer data set.
@@ -230,6 +230,22 @@ attach(uppClinSmall)
     ##     age, e.rfs, er, grade, node, pgr, size, t.rfs, treatment
 
     ## The following objects are masked from uppClinSmall (pos = 22):
+    ## 
+    ##     age, e.rfs, er, grade, node, pgr, size, t.rfs, treatment
+
+    ## The following objects are masked from uppClinSmall (pos = 23):
+    ## 
+    ##     age, e.rfs, er, grade, node, pgr, size, t.rfs, treatment
+
+    ## The following objects are masked from uppClinSmall (pos = 24):
+    ## 
+    ##     age, e.rfs, er, grade, node, pgr, size, t.rfs, treatment
+
+    ## The following objects are masked from uppClinSmall (pos = 25):
+    ## 
+    ##     age, e.rfs, er, grade, node, pgr, size, t.rfs, treatment
+
+    ## The following objects are masked from uppClinSmall (pos = 26):
     ## 
     ##     age, e.rfs, er, grade, node, pgr, size, t.rfs, treatment
 
