@@ -2,7 +2,7 @@
 title: "PATH302 - Breast Cancer Data"
 author: "Mik Black"
 date: "7 August 2020"
-output: html_document
+output: github_document
 ---
 
 ```{r setup, include=FALSE}
