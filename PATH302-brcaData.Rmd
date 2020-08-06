@@ -3,8 +3,8 @@ title: "PATH302 - Breast Cancer Data"
 author: "Mik Black"
 date: "7 August 2020"
 output: 
-  html_document: default
   github_document: default
+  html_document: default
 ---
 
 <!-- rmarkdown::render("PATH302-brcaData.Rmd", output_format=c("github_document", "html_document")) -->
