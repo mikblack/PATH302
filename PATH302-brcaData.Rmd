@@ -2,8 +2,12 @@
 title: "PATH302 - Breast Cancer Data"
 author: "Mik Black"
 date: "7 August 2020"
-output: github_document
+output: 
+  github_document: default
+  html_document: default
 ---
+
+<!-- rmarkdown::render("PATH302-brcaData.Rmd", output_format=c("html_document", "github_document")) -->
 
 ```{r setup, include=FALSE}
 knitr::opts_chunk$set(echo = TRUE)
@@ -17,6 +21,10 @@ The data we will be using comes from the following publication:
 Miller, L. D., Smeds, J., George, J., Vega, V. B., Vergara, L., Ploner, A., et al. (2005). An expression signature for p53 status in human breast cancer predicts mutation status, transcriptional effects, and patient survival. _Proceedings of the National Academy of Sciences of the United States of America_, 102(38), 13550–13555. 
 
 It comprises microarray and clinical data generated from tumour samples obtained from 251 female breast cancer patients from Uppsala County, Sweden, from January 1, 1987 to December 31, 1989.  While this is a relatively old data set, it still reflects the type of data generated in clinical genomics studies today (i.e., sequencing-based transcriptomic data from tumours).
+
+An online version of this document can be accessed at:
+
+https://github.com/mikblack/PATH302/blob/master/PATH302-brcaData.md
 
 ## Setup 
 
