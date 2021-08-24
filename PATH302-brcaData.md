@@ -1,7 +1,7 @@
 PATH302 - Breast Cancer Data
 ================
 Mik Black
-7 August 2020
+27 August 2021
 
 <!-- rmarkdown::render("PATH302-brcaData.Rmd", output_format=c("github_document", "html_document")) -->
 
@@ -27,12 +27,22 @@ An online version of this document can be accessed at:
 
 <https://github.com/mikblack/PATH302/blob/master/PATH302-brcaData.md>
 
-## Setup
+## Computer setup
+
+Two options:
+
+-   Running R and RStudio on the Student Desktop:
+    <https://student.desktop.otago.ac.nz>
+-   Running R and RStudio your own computer
+
+Use the instructions below that match your computing setup.
+
+### Running on the Student Desktop
 
 Click on the Windows Start Menu in the bottom left of the Student
 Desktop, and open the RStudio application.
 
-### Installation
+#### Package installation
 
 In order to access the data and commands needed for this lab, we first
 need to install some add-on packages. Run the commands below in R to do
@@ -44,15 +54,55 @@ dir.create('Rlibs')
 newPath = c(.libPaths(), paste0(getwd(), "/Rlibs"))
 .libPaths(newPath)
 
-install.packages(c('magrittr','gplots','httr'), lib='Rlibs')
+install.packages(c('magrittr','gplots','httr','BiocManager'), lib='Rlibs')
 
-install.packages('BiocInstaller', repos='http://www.bioconductor.org/packages/3.6/bioc', lib='Rlibs')
-library(BiocInstaller, lib.loc="Rlibs")
-biocLite("Biobase", lib="Rlibs")
+library(BiocManager, lib.loc="Rlibs")
+install("Biobase", lib="Rlibs")
 ```
 
-Type ‘n’ (and hit ‘enter’) if presented with: `Update all/some/none?
-[a/s/n/]:`
+-   Type ‘n’ (and hit ‘enter’) if presented with:
+    `Update all/some/none? [a/s/n/]:`
+-   You can ignoreany warnings about packages being built under a
+    different version of R.
+
+### Running on your own computer
+
+If you already have working versions of R and RStudio installed on your
+computer, you can skip ahead to “package installation” below.
+
+#### Installing R and RStudio
+
+You need to install both R *and* RStudio on your computer.
+
+-   Download R from: <http://cran.auckland.ac.nz/>
+-   Download RStudio from:
+    <https://www.rstudio.com/products/rstudio/download/#download>
+
+Once you have installed both applications, open RStudio (don’t open the
+R application - we’ll use R through the RStudio interface).
+
+#### Package installation
+
+In order to access the data and commands needed for this lab, we first
+need to install some add-on packages. Run the commands below in R to do
+this (you can just cut and paste these commands into the R console - if
+you’re not sure what this means, just let me know):
+
+``` r
+install.packages(c('magrittr', 'gplots', 'httr', 'BiocManager'))
+library(BiocManager)
+install('Biobase')
+```
+
+-   Type ‘n’ (and hit ‘enter’) if presented with:
+    `Update all/some/none? [a/s/n/]:`
+-   You can ignoreany warnings about packages being built under a
+    different version of R.
+
+## Loading packages and data
+
+Do the following, regardless of whether you are running RStudio on your
+computer, or on the student desktop (same instructions for both).
 
 ### Load packages
 
@@ -73,8 +123,11 @@ library(httr)
 
 Unfortunately, due to the way in which the student desktop is set up,
 the package that contains that data, `breastCancerUPP` can’t easily be
-installed. I have instead created a data file containing the required
-information, that can be loaded via the following command:
+installed. For consistency, use the following workaround, even if you
+are using RStudio on your own computer.
+
+I have instead created a data file containing the required information,
+that can be loaded via the following command:
 
 ``` r
 load(url("https://github.com/mikblack/PATH302/raw/master/uppsalaCohort.RData"))
@@ -86,6 +139,10 @@ data about: gene expression, microarray probe annotation (so we can
 understand what gene each microarray probe relates to) and clinical
 information about the patients. It also loads an object called
 `PAM50Preds` which we’ll use later.
+
+## Analysis of breast cancer gene expression data
+
+Now we can start the fun stuff!
 
 ### Extract cohort data
 
@@ -159,22 +216,19 @@ For example:
 grade
 ```
 
-    ##   [1]  3  3  2  1  2  3  1  1  3  3 NA  2  2  2  2  2  3  2  2  2  2  2  1  2  2
-    ##  [26]  2  2  2  2  3  2  2  1  2  2  2  2  1  3  2  2  2  3  2  2  3  2  2  1  3
-    ##  [51]  2  2  2  3  3  2  1  2  2  3  1  2  2  3  2  2  2  3  3  1  1  3  2  3  2
-    ##  [76]  3  2  2  1  2  1  3  3  1  1  1  2  3  3  2  2  2  2  3  1  2  2  2  2  2
-    ## [101]  3  3  2  2  3  2  2  3  1  1  2  1  2  1  2  2  2  3  1  2  2  1  2  2  1
-    ## [126]  1  3  1  1  2  2  2  1  1  1  2  2  2  1  3  2  1  1  2  2  1  2  2  2  2
-    ## [151]  2  1  1  2  3  2  1  3  1  1  2  1  3  1  3  1  2  2  2  3  2  1  1  2  1
-    ## [176]  3  2  3  2  1  2  2  2  1  2  1  1  1  2  1  1  2  3  3  3  2  2  2  2  2
-    ## [201]  3  2  1  2  1  2  3  1  2  2  1  2  2  3  3  2  1  3 NA  1  1  2  2  3  1
-    ## [226]  2  2  1  2  1  2  1  3  2  2  2  1  3  1  3  3  3  1  2  2  2  2  3  2  1
-    ## [251]  2
+    ##   [1]  3  3  2  1  2  3  1  1  3  3 NA  2  2  2  2  2  3  2  2  2  2  2  1  2  2  2  2  2  2  3  2  2  1  2
+    ##  [35]  2  2  2  1  3  2  2  2  3  2  2  3  2  2  1  3  2  2  2  3  3  2  1  2  2  3  1  2  2  3  2  2  2  3
+    ##  [69]  3  1  1  3  2  3  2  3  2  2  1  2  1  3  3  1  1  1  2  3  3  2  2  2  2  3  1  2  2  2  2  2  3  3
+    ## [103]  2  2  3  2  2  3  1  1  2  1  2  1  2  2  2  3  1  2  2  1  2  2  1  1  3  1  1  2  2  2  1  1  1  2
+    ## [137]  2  2  1  3  2  1  1  2  2  1  2  2  2  2  2  1  1  2  3  2  1  3  1  1  2  1  3  1  3  1  2  2  2  3
+    ## [171]  2  1  1  2  1  3  2  3  2  1  2  2  2  1  2  1  1  1  2  1  1  2  3  3  3  2  2  2  2  2  3  2  1  2
+    ## [205]  1  2  3  1  2  2  1  2  2  3  3  2  1  3 NA  1  1  2  2  3  1  2  2  1  2  1  2  1  3  2  2  2  1  3
+    ## [239]  1  3  3  3  1  2  2  2  2  3  2  1  2
 
 The clinical variables are:
 
 | Variable  | Description                                               |
-| :-------- | :-------------------------------------------------------- |
+|:----------|:----------------------------------------------------------|
 | size      | Tumour Size (cm)                                          |
 | age       | Patient age at diagnosis (years)                          |
 | er        | Estrogen receptor status (0=negative, 1=positive)         |
@@ -204,11 +258,11 @@ ggplot(data=uppClinSmall, aes(x=size)) +
   ggtitle("Uppsala cohort: tumour size")
 ```
 
-![](PATH302-brcaData_files/figure-gfm/unnamed-chunk-17-1.png)<!-- -->
+![](PATH302-brcaData_files/figure-gfm/unnamed-chunk-18-1.png)<!-- -->
 
 **Challenge 1:** *modify the code above to produce the following graph:*
 
-![](PATH302-brcaData_files/figure-gfm/unnamed-chunk-18-1.png)<!-- -->
+![](PATH302-brcaData_files/figure-gfm/unnamed-chunk-19-1.png)<!-- -->
 
 There are **LOTS** of plots we can make. Here’s a boxplot showing the
 distribution of tumour size across tumour grade:
@@ -218,7 +272,7 @@ ggplot(data=uppClinSmall, aes(x=as.factor(grade),y=size)) +
   geom_boxplot()
 ```
 
-![](PATH302-brcaData_files/figure-gfm/unnamed-chunk-19-1.png)<!-- -->
+![](PATH302-brcaData_files/figure-gfm/unnamed-chunk-20-1.png)<!-- -->
 
 Get rid of the annoying large `size` value using the `ylim` command to
 change the limits on the y-axis, and the `NA` values in `grade` using
@@ -231,11 +285,11 @@ ggplot(data=subset(uppClinSmall, !is.na(grade)), aes(x=as.factor(grade),y=size))
   ggtitle("Uppsala cohort: tumour size versus grade")
 ```
 
-![](PATH302-brcaData_files/figure-gfm/unnamed-chunk-20-1.png)<!-- -->
+![](PATH302-brcaData_files/figure-gfm/unnamed-chunk-21-1.png)<!-- -->
 
 **Challenge 2:** *Modify the code above to generate the following plot:*
 
-![](PATH302-brcaData_files/figure-gfm/unnamed-chunk-21-1.png)<!-- -->
+![](PATH302-brcaData_files/figure-gfm/unnamed-chunk-22-1.png)<!-- -->
 
 What do you conclude about the relationship between ER status and tumour
 size?
@@ -462,7 +516,7 @@ plot( survfit(Surv(t.rfs, e.rfs) ~1 ),
       ylab = "Proportion recurrence free")
 ```
 
-![](PATH302-brcaData_files/figure-gfm/unnamed-chunk-34-1.png)<!-- -->
+![](PATH302-brcaData_files/figure-gfm/unnamed-chunk-35-1.png)<!-- -->
 
 ``` r
 plot( survfit(Surv(t.rfs, e.rfs) ~ er ), col=1:2, 
@@ -471,7 +525,7 @@ plot( survfit(Surv(t.rfs, e.rfs) ~ er ), col=1:2,
 legend('bottomleft', c("ER-", "ER+"), fill=1:2)
 ```
 
-![](PATH302-brcaData_files/figure-gfm/unnamed-chunk-35-1.png)<!-- -->
+![](PATH302-brcaData_files/figure-gfm/unnamed-chunk-36-1.png)<!-- -->
 
 **Challenge 5:** *Modify the code above to generate a survival plot for
 tumour grade. Does relationship between grade and recurrence free
@@ -533,8 +587,8 @@ esr1Probes = uppAnnot$probe[ na.omit(uppAnnot$Gene.symbol == 'ESR1') ]
 esr1Probes
 ```
 
-    ##  [1] "205221_at"   "211122_s_at" "211123_at"   "211124_s_at" "211508_s_at"
-    ##  [6] "215228_at"   "215229_at"   "216460_at"   "216482_x_at" "240973_s_at"
+    ##  [1] "205221_at"   "211122_s_at" "211123_at"   "211124_s_at" "211508_s_at" "215228_at"   "215229_at"  
+    ##  [8] "216460_at"   "216482_x_at" "240973_s_at"
 
 There are multiple probes, but the best one to use is the first one:
 `esr1Probes[1]` (trust me).
@@ -574,7 +628,7 @@ ER+ (1) tumours:
 ggplot(data=subset(uppClinSmall, !is.na(er)), aes(x=as.factor(er), y=esr1Dat)) + geom_boxplot()
 ```
 
-![](PATH302-brcaData_files/figure-gfm/unnamed-chunk-46-1.png)<!-- -->
+![](PATH302-brcaData_files/figure-gfm/unnamed-chunk-47-1.png)<!-- -->
 
 **Challenge 6:** *Explain what the boxplot above shows. Is this what you
 would expect?*
@@ -586,7 +640,7 @@ proliferation plays an important role in the growth and development of
 tumours.
 
 | Gene   | Probe         |
-| :----- | :------------ |
+|:-------|:--------------|
 | MAD2L1 | 203362\_s\_at |
 | RRM2   | 201890\_at    |
 | ANLN   | 222608\_s\_at |
@@ -639,8 +693,6 @@ The following code is a little ugly, but it does two important things:
     that there are no extreme values (this makes sure that the range of
     our visualisation isn’t too great.)
 
-<!-- end list -->
-
 ``` r
 prolifDatScale = t(scale(t(prolifDat)))
 prolifDatScale[prolifDatScale < -3] = -3
@@ -658,7 +710,7 @@ heatmap.2(prolifDatScale, trace='none', scale='none', col='bluered',
           labRow = uppAnnot$Gene.symbol[prolifRows])
 ```
 
-![](PATH302-brcaData_files/figure-gfm/unnamed-chunk-53-1.png)<!-- -->
+![](PATH302-brcaData_files/figure-gfm/unnamed-chunk-54-1.png)<!-- -->
 
 **Challenge 7:** *Explain what is being shown in the heatmap.*
 
@@ -698,11 +750,10 @@ heatmap.2(prolifDatScale[,ord], trace='none', scale='none', col='bluered',
           ColSideColors=prolifCol[ord])
 ```
 
-    ## Warning in heatmap.2(prolifDatScale[, ord], trace = "none", scale = "none", :
-    ## Discrepancy: Colv is FALSE, while dendrogram is `both'. Omitting column
-    ## dendogram.
+    ## Warning in heatmap.2(prolifDatScale[, ord], trace = "none", scale = "none", : Discrepancy: Colv is FALSE,
+    ## while dendrogram is `both'. Omitting column dendogram.
 
-![](PATH302-brcaData_files/figure-gfm/unnamed-chunk-56-1.png)<!-- -->
+![](PATH302-brcaData_files/figure-gfm/unnamed-chunk-57-1.png)<!-- -->
 
 Now we can clearly see that low values of the centroid (blue) correspond
 to uniformly low expression levels for the proliferation genes, and vice
@@ -728,7 +779,7 @@ across tumour grade.
 ggplot(data=subset(uppClinSmall, !is.na(grade)), aes(x=as.factor(grade), y=prolifMean)) + geom_boxplot()
 ```
 
-![](PATH302-brcaData_files/figure-gfm/unnamed-chunk-58-1.png)<!-- -->
+![](PATH302-brcaData_files/figure-gfm/unnamed-chunk-59-1.png)<!-- -->
 
 **Challenge 8:** *Modify the above code to investigate the relationship
 between proliferation and tumour subtype. What does the plot tell you?*
@@ -777,7 +828,7 @@ groups <- names(table(prolifHilo))
 legend('bottomleft', groups, fill=1:2)
 ```
 
-![](PATH302-brcaData_files/figure-gfm/unnamed-chunk-63-1.png)<!-- -->
+![](PATH302-brcaData_files/figure-gfm/unnamed-chunk-64-1.png)<!-- -->
 
 **Challenge 9:** *What does the plot above tell you about the
 relationship between proliferative activity in the tumour, and

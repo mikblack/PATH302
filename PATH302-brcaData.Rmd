@@ -1,7 +1,7 @@
 ---
 title: "PATH302 - Breast Cancer Data"
 author: "Mik Black"
-date: "7 August 2020"
+date: "27 August 2021"
 output: 
   github_document: default
   html_document: default
@@ -26,11 +26,20 @@ An online version of this document can be accessed at:
 
 https://github.com/mikblack/PATH302/blob/master/PATH302-brcaData.md
 
-## Setup 
+## Computer setup
+
+Two options:
+ 
+ - Running R and RStudio on the Student Desktop: https://student.desktop.otago.ac.nz
+ - Running R and RStudio your own computer
+ 
+Use the instructions below that match your computing setup.
+
+### Running on the Student Desktop
 
 Click on the Windows Start Menu in the bottom left of the Student Desktop, and open the RStudio application.
 
-### Installation
+#### Package installation
 
 In order to access the data and commands needed for this lab, we first need to install some add-on packages.
 Run the commands below in R to do this (you can just cut and paste these commands into the R console - if you're not sure what this means, just let me know):
@@ -40,14 +49,45 @@ dir.create('Rlibs')
 newPath = c(.libPaths(), paste0(getwd(), "/Rlibs"))
 .libPaths(newPath)
 
-install.packages(c('magrittr','gplots','httr'), lib='Rlibs')
+install.packages(c('magrittr','gplots','httr','BiocManager'), lib='Rlibs')
 
-install.packages('BiocInstaller', repos='http://www.bioconductor.org/packages/3.6/bioc', lib='Rlibs')
-library(BiocInstaller, lib.loc="Rlibs")
-biocLite("Biobase", lib="Rlibs")
+library(BiocManager, lib.loc="Rlibs")
+install("Biobase", lib="Rlibs")
 ```
 
-Type 'n' (and hit 'enter') if presented with: `Update all/some/none? [a/s/n/]:`
+ - Type 'n' (and hit 'enter') if presented with: `Update all/some/none? [a/s/n/]:`
+ - You can ignoreany warnings about packages being built under a different version of R.
+
+### Running on your own computer
+
+If you already have working versions of R and RStudio installed on your computer, you can skip ahead to "package installation" below. 
+
+#### Installing R and RStudio
+
+You need to install both R _and_ RStudio on your computer.
+
+ - Download R from: http://cran.auckland.ac.nz/
+ - Download RStudio from: https://www.rstudio.com/products/rstudio/download/#download
+
+Once you have installed both applications, open RStudio (don't open the R application - we'll use R through the RStudio interface).
+
+#### Package installation
+
+In order to access the data and commands needed for this lab, we first need to install some add-on packages.
+Run the commands below in R to do this (you can just cut and paste these commands into the R console - if you're not sure what this means, just let me know):
+
+```{r, eval=F}
+install.packages(c('magrittr', 'gplots', 'httr', 'BiocManager'))
+library(BiocManager)
+install('Biobase')
+```
+
+ - Type 'n' (and hit 'enter') if presented with: `Update all/some/none? [a/s/n/]:`
+ - You can ignoreany warnings about packages being built under a different version of R.
+
+## Loading packages and data
+
+Do the following, regardless of whether you are running RStudio on your computer, or on the student desktop (same instructions for both).
 
 ### Load packages
 
@@ -65,8 +105,9 @@ library(httr)
 
 ### Load data
 
-Unfortunately, due to the way in which the student desktop is set up, the package that contains that data,
-`breastCancerUPP` can't easily be installed.  I have instead created a data file containing the required 
+Unfortunately, due to the way in which the student desktop is set up, the package that contains that data, `breastCancerUPP` can't easily be installed. For consistency, use the following workaround, even if you are using RStudio on your own computer.
+
+I have instead created a data file containing the required 
 information, that can be loaded via the following command:
 
 ```{r, echo=TRUE, eval=FALSE, message=FALSE, warning=FALSE}
@@ -80,6 +121,10 @@ load("uppsalaCohort.RData")
 
 This loads a data object called `upp` which holds LOTS of relevant information about the Uppsala breast cancer cohort.  We are interested in data about: gene expression, microarray probe annotation (so we can understand what gene each microarray probe relates to) and clinical information about the patients.  It also loads an object called 
 `PAM50Preds` which we'll use later.
+
+## Analysis of breast cancer gene expression data
+
+Now we can start the fun stuff!
 
 ### Extract cohort data
 
