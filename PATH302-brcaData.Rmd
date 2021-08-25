@@ -56,7 +56,7 @@ install("Biobase", lib="Rlibs")
 ```
 
  - Type 'n' (and hit 'enter') if presented with: `Update all/some/none? [a/s/n/]:`
- - You can ignoreany warnings about packages being built under a different version of R.
+ - You can ignore any warnings about packages being built under a different version of R.
 
 ### Running on your own computer
 
@@ -83,7 +83,7 @@ install('Biobase')
 ```
 
  - Type 'n' (and hit 'enter') if presented with: `Update all/some/none? [a/s/n/]:`
- - You can ignoreany warnings about packages being built under a different version of R.
+ - You can ignore any warnings about packages being built under a different version of R.
 
 ## Loading packages and data
 

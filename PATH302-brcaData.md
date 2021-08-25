@@ -62,7 +62,7 @@ install("Biobase", lib="Rlibs")
 
 -   Type ‘n’ (and hit ‘enter’) if presented with:
     `Update all/some/none? [a/s/n/]:`
--   You can ignoreany warnings about packages being built under a
+-   You can ignore any warnings about packages being built under a
     different version of R.
 
 ### Running on your own computer
@@ -96,7 +96,7 @@ install('Biobase')
 
 -   Type ‘n’ (and hit ‘enter’) if presented with:
     `Update all/some/none? [a/s/n/]:`
--   You can ignoreany warnings about packages being built under a
+-   You can ignore any warnings about packages being built under a
     different version of R.
 
 ## Loading packages and data
@@ -216,14 +216,15 @@ For example:
 grade
 ```
 
-    ##   [1]  3  3  2  1  2  3  1  1  3  3 NA  2  2  2  2  2  3  2  2  2  2  2  1  2  2  2  2  2  2  3  2  2  1  2
-    ##  [35]  2  2  2  1  3  2  2  2  3  2  2  3  2  2  1  3  2  2  2  3  3  2  1  2  2  3  1  2  2  3  2  2  2  3
-    ##  [69]  3  1  1  3  2  3  2  3  2  2  1  2  1  3  3  1  1  1  2  3  3  2  2  2  2  3  1  2  2  2  2  2  3  3
-    ## [103]  2  2  3  2  2  3  1  1  2  1  2  1  2  2  2  3  1  2  2  1  2  2  1  1  3  1  1  2  2  2  1  1  1  2
-    ## [137]  2  2  1  3  2  1  1  2  2  1  2  2  2  2  2  1  1  2  3  2  1  3  1  1  2  1  3  1  3  1  2  2  2  3
-    ## [171]  2  1  1  2  1  3  2  3  2  1  2  2  2  1  2  1  1  1  2  1  1  2  3  3  3  2  2  2  2  2  3  2  1  2
-    ## [205]  1  2  3  1  2  2  1  2  2  3  3  2  1  3 NA  1  1  2  2  3  1  2  2  1  2  1  2  1  3  2  2  2  1  3
-    ## [239]  1  3  3  3  1  2  2  2  2  3  2  1  2
+    ##   [1]  3  3  2  1  2  3  1  1  3  3 NA  2  2  2  2  2  3  2  2  2  2  2  1  2  2  2  2  2  2
+    ##  [30]  3  2  2  1  2  2  2  2  1  3  2  2  2  3  2  2  3  2  2  1  3  2  2  2  3  3  2  1  2
+    ##  [59]  2  3  1  2  2  3  2  2  2  3  3  1  1  3  2  3  2  3  2  2  1  2  1  3  3  1  1  1  2
+    ##  [88]  3  3  2  2  2  2  3  1  2  2  2  2  2  3  3  2  2  3  2  2  3  1  1  2  1  2  1  2  2
+    ## [117]  2  3  1  2  2  1  2  2  1  1  3  1  1  2  2  2  1  1  1  2  2  2  1  3  2  1  1  2  2
+    ## [146]  1  2  2  2  2  2  1  1  2  3  2  1  3  1  1  2  1  3  1  3  1  2  2  2  3  2  1  1  2
+    ## [175]  1  3  2  3  2  1  2  2  2  1  2  1  1  1  2  1  1  2  3  3  3  2  2  2  2  2  3  2  1
+    ## [204]  2  1  2  3  1  2  2  1  2  2  3  3  2  1  3 NA  1  1  2  2  3  1  2  2  1  2  1  2  1
+    ## [233]  3  2  2  2  1  3  1  3  3  3  1  2  2  2  2  3  2  1  2
 
 The clinical variables are:
 
@@ -587,8 +588,8 @@ esr1Probes = uppAnnot$probe[ na.omit(uppAnnot$Gene.symbol == 'ESR1') ]
 esr1Probes
 ```
 
-    ##  [1] "205221_at"   "211122_s_at" "211123_at"   "211124_s_at" "211508_s_at" "215228_at"   "215229_at"  
-    ##  [8] "216460_at"   "216482_x_at" "240973_s_at"
+    ##  [1] "205221_at"   "211122_s_at" "211123_at"   "211124_s_at" "211508_s_at" "215228_at"  
+    ##  [7] "215229_at"   "216460_at"   "216482_x_at" "240973_s_at"
 
 There are multiple probes, but the best one to use is the first one:
 `esr1Probes[1]` (trust me).
@@ -750,8 +751,8 @@ heatmap.2(prolifDatScale[,ord], trace='none', scale='none', col='bluered',
           ColSideColors=prolifCol[ord])
 ```
 
-    ## Warning in heatmap.2(prolifDatScale[, ord], trace = "none", scale = "none", : Discrepancy: Colv is FALSE,
-    ## while dendrogram is `both'. Omitting column dendogram.
+    ## Warning in heatmap.2(prolifDatScale[, ord], trace = "none", scale = "none", : Discrepancy:
+    ## Colv is FALSE, while dendrogram is `both'. Omitting column dendogram.
 
 ![](PATH302-brcaData_files/figure-gfm/unnamed-chunk-57-1.png)<!-- -->
 
