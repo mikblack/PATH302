@@ -89,7 +89,7 @@ this (you can just cut and paste these commands into the R console - if
 you’re not sure what this means, just let me know):
 
 ``` r
-install.packages(c('magrittr', 'gplots', 'httr', 'BiocManager'))
+install.packages(c('ggplot', 'tibble', 'magrittr', 'gplots', 'httr', 'BiocManager'))
 library(BiocManager)
 install('Biobase')
 ```
@@ -216,15 +216,14 @@ For example:
 grade
 ```
 
-    ##   [1]  3  3  2  1  2  3  1  1  3  3 NA  2  2  2  2  2  3  2  2  2  2  2  1  2  2  2  2  2  2
-    ##  [30]  3  2  2  1  2  2  2  2  1  3  2  2  2  3  2  2  3  2  2  1  3  2  2  2  3  3  2  1  2
-    ##  [59]  2  3  1  2  2  3  2  2  2  3  3  1  1  3  2  3  2  3  2  2  1  2  1  3  3  1  1  1  2
-    ##  [88]  3  3  2  2  2  2  3  1  2  2  2  2  2  3  3  2  2  3  2  2  3  1  1  2  1  2  1  2  2
-    ## [117]  2  3  1  2  2  1  2  2  1  1  3  1  1  2  2  2  1  1  1  2  2  2  1  3  2  1  1  2  2
-    ## [146]  1  2  2  2  2  2  1  1  2  3  2  1  3  1  1  2  1  3  1  3  1  2  2  2  3  2  1  1  2
-    ## [175]  1  3  2  3  2  1  2  2  2  1  2  1  1  1  2  1  1  2  3  3  3  2  2  2  2  2  3  2  1
-    ## [204]  2  1  2  3  1  2  2  1  2  2  3  3  2  1  3 NA  1  1  2  2  3  1  2  2  1  2  1  2  1
-    ## [233]  3  2  2  2  1  3  1  3  3  3  1  2  2  2  2  3  2  1  2
+    ##   [1]  3  3  2  1  2  3  1  1  3  3 NA  2  2  2  2  2  3  2  2  2  2  2  1  2  2  2  2  2  2  3  2  2  1  2
+    ##  [35]  2  2  2  1  3  2  2  2  3  2  2  3  2  2  1  3  2  2  2  3  3  2  1  2  2  3  1  2  2  3  2  2  2  3
+    ##  [69]  3  1  1  3  2  3  2  3  2  2  1  2  1  3  3  1  1  1  2  3  3  2  2  2  2  3  1  2  2  2  2  2  3  3
+    ## [103]  2  2  3  2  2  3  1  1  2  1  2  1  2  2  2  3  1  2  2  1  2  2  1  1  3  1  1  2  2  2  1  1  1  2
+    ## [137]  2  2  1  3  2  1  1  2  2  1  2  2  2  2  2  1  1  2  3  2  1  3  1  1  2  1  3  1  3  1  2  2  2  3
+    ## [171]  2  1  1  2  1  3  2  3  2  1  2  2  2  1  2  1  1  1  2  1  1  2  3  3  3  2  2  2  2  2  3  2  1  2
+    ## [205]  1  2  3  1  2  2  1  2  2  3  3  2  1  3 NA  1  1  2  2  3  1  2  2  1  2  1  2  1  3  2  2  2  1  3
+    ## [239]  1  3  3  3  1  2  2  2  2  3  2  1  2
 
 The clinical variables are:
 
@@ -567,7 +566,7 @@ We can see that the result is highly significant, so we conclude that
 the different tumour subtypes are associated with differences in
 recurrence free survival rates.
 
-**Challenge 5:** *Modify the code above to test for an association
+**Challenge 6:** *Modify the code above to test for an association
 between grade and survival. What do you conclude?*
 
 ### Gene expression data
@@ -588,8 +587,8 @@ esr1Probes = uppAnnot$probe[ na.omit(uppAnnot$Gene.symbol == 'ESR1') ]
 esr1Probes
 ```
 
-    ##  [1] "205221_at"   "211122_s_at" "211123_at"   "211124_s_at" "211508_s_at" "215228_at"  
-    ##  [7] "215229_at"   "216460_at"   "216482_x_at" "240973_s_at"
+    ##  [1] "205221_at"   "211122_s_at" "211123_at"   "211124_s_at" "211508_s_at" "215228_at"   "215229_at"  
+    ##  [8] "216460_at"   "216482_x_at" "240973_s_at"
 
 There are multiple probes, but the best one to use is the first one:
 `esr1Probes[1]` (trust me).
@@ -631,7 +630,7 @@ ggplot(data=subset(uppClinSmall, !is.na(er)), aes(x=as.factor(er), y=esr1Dat)) +
 
 ![](PATH302-brcaData_files/figure-gfm/unnamed-chunk-47-1.png)<!-- -->
 
-**Challenge 6:** *Explain what the boxplot above shows. Is this what you
+**Challenge 7:** *Explain what the boxplot above shows. Is this what you
 would expect?*
 
 ### Proliferation genes
@@ -713,7 +712,7 @@ heatmap.2(prolifDatScale, trace='none', scale='none', col='bluered',
 
 ![](PATH302-brcaData_files/figure-gfm/unnamed-chunk-54-1.png)<!-- -->
 
-**Challenge 7:** *Explain what is being shown in the heatmap.*
+**Challenge 8:** *Explain what is being shown in the heatmap.*
 
 Since all of the proliferation genes are basically behaving in the same
 way, we can summarise their activity by taking their mean for each
@@ -751,8 +750,8 @@ heatmap.2(prolifDatScale[,ord], trace='none', scale='none', col='bluered',
           ColSideColors=prolifCol[ord])
 ```
 
-    ## Warning in heatmap.2(prolifDatScale[, ord], trace = "none", scale = "none", : Discrepancy:
-    ## Colv is FALSE, while dendrogram is `both'. Omitting column dendogram.
+    ## Warning in heatmap.2(prolifDatScale[, ord], trace = "none", scale = "none", : Discrepancy: Colv is FALSE,
+    ## while dendrogram is `both'. Omitting column dendogram.
 
 ![](PATH302-brcaData_files/figure-gfm/unnamed-chunk-57-1.png)<!-- -->
 
@@ -782,7 +781,7 @@ ggplot(data=subset(uppClinSmall, !is.na(grade)), aes(x=as.factor(grade), y=proli
 
 ![](PATH302-brcaData_files/figure-gfm/unnamed-chunk-59-1.png)<!-- -->
 
-**Challenge 8:** *Modify the above code to investigate the relationship
+**Challenge 9:** *Modify the above code to investigate the relationship
 between proliferation and tumour subtype. What does the plot tell you?*
 
 Lastly, we can use the centroid to define groups of tumours with
@@ -831,7 +830,7 @@ legend('bottomleft', groups, fill=1:2)
 
 ![](PATH302-brcaData_files/figure-gfm/unnamed-chunk-64-1.png)<!-- -->
 
-**Challenge 9:** *What does the plot above tell you about the
+**Challenge 10:** *What does the plot above tell you about the
 relationship between proliferative activity in the tumour, and
 recurrence free survival?*
 
