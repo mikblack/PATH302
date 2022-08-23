@@ -1,9 +1,14 @@
 PATH302 - Breast Cancer Data
 ================
-Mik Black
-27 August 2021
+Professor Mik Black
+26 August 2022
 
-<!-- rmarkdown::render("PATH302-brcaData.Rmd", output_format=c("github_document", "html_document")) -->
+<!-- first run this code to generate GitHub formatted markdown: -->
+<!-- rmarkdown::render('PATH302-brcaData.Rmd', output_format="github_document") -->
+<!-- then knit the docuemnt to generate html -->
+<!-- then on the command line run:  -->
+<!-- wkhtmltopdf --footer-spacing 7 --footer-font-size 10 --footer-left 'PATH302' --footer-right '[page]/[topage]' --minimum-font-size 15 -B 23 -T 20 -R 20 -L 20 PATH302-brcaData.html PATH302-brcaData.pdf -->
+<!-- This gets around the issue of getting "double links" when printing to PDF from a browser. -->
 
 In this lab we will be using the R computing environment to perform a
 basic analysis of gene expression data from a breast cancer data set.
@@ -55,9 +60,7 @@ newPath = c(.libPaths(), paste0(getwd(), "/Rlibs"))
 .libPaths(newPath)
 
 install.packages(c('magrittr','gplots','httr','BiocManager'), lib='Rlibs')
-
-library(BiocManager, lib.loc="Rlibs")
-install("Biobase", lib="Rlibs")
+BiocManager::install(version='3.14', lib='Rlibs')
 ```
 
 -   Type ‘n’ (and hit ‘enter’) if presented with:
@@ -89,7 +92,7 @@ this (you can just cut and paste these commands into the R console - if
 you’re not sure what this means, just let me know):
 
 ``` r
-install.packages(c('magrittr', 'gplots', 'httr', 'BiocManager'))
+install.packages(c('ggplot', 'tibble', 'magrittr', 'gplots', 'httr', 'BiocManager'))
 library(BiocManager)
 install('Biobase')
 ```
@@ -216,15 +219,12 @@ For example:
 grade
 ```
 
-    ##   [1]  3  3  2  1  2  3  1  1  3  3 NA  2  2  2  2  2  3  2  2  2  2  2  1  2  2  2  2  2  2
-    ##  [30]  3  2  2  1  2  2  2  2  1  3  2  2  2  3  2  2  3  2  2  1  3  2  2  2  3  3  2  1  2
-    ##  [59]  2  3  1  2  2  3  2  2  2  3  3  1  1  3  2  3  2  3  2  2  1  2  1  3  3  1  1  1  2
-    ##  [88]  3  3  2  2  2  2  3  1  2  2  2  2  2  3  3  2  2  3  2  2  3  1  1  2  1  2  1  2  2
-    ## [117]  2  3  1  2  2  1  2  2  1  1  3  1  1  2  2  2  1  1  1  2  2  2  1  3  2  1  1  2  2
-    ## [146]  1  2  2  2  2  2  1  1  2  3  2  1  3  1  1  2  1  3  1  3  1  2  2  2  3  2  1  1  2
-    ## [175]  1  3  2  3  2  1  2  2  2  1  2  1  1  1  2  1  1  2  3  3  3  2  2  2  2  2  3  2  1
-    ## [204]  2  1  2  3  1  2  2  1  2  2  3  3  2  1  3 NA  1  1  2  2  3  1  2  2  1  2  1  2  1
-    ## [233]  3  2  2  2  1  3  1  3  3  3  1  2  2  2  2  3  2  1  2
+    ##   [1]  3  3  2  1  2  3  1  1  3  3 NA  2  2  2  2  2  3  2  2  2  2  2  1  2  2  2  2  2  2  3  2  2  1  2  2  2  2  1  3  2  2  2  3  2  2
+    ##  [46]  3  2  2  1  3  2  2  2  3  3  2  1  2  2  3  1  2  2  3  2  2  2  3  3  1  1  3  2  3  2  3  2  2  1  2  1  3  3  1  1  1  2  3  3  2
+    ##  [91]  2  2  2  3  1  2  2  2  2  2  3  3  2  2  3  2  2  3  1  1  2  1  2  1  2  2  2  3  1  2  2  1  2  2  1  1  3  1  1  2  2  2  1  1  1
+    ## [136]  2  2  2  1  3  2  1  1  2  2  1  2  2  2  2  2  1  1  2  3  2  1  3  1  1  2  1  3  1  3  1  2  2  2  3  2  1  1  2  1  3  2  3  2  1
+    ## [181]  2  2  2  1  2  1  1  1  2  1  1  2  3  3  3  2  2  2  2  2  3  2  1  2  1  2  3  1  2  2  1  2  2  3  3  2  1  3 NA  1  1  2  2  3  1
+    ## [226]  2  2  1  2  1  2  1  3  2  2  2  1  3  1  3  3  3  1  2  2  2  2  3  2  1  2
 
 The clinical variables are:
 
@@ -405,16 +405,17 @@ each other.*
 
 We can use the microarray data to generate a *molecular subtype* for
 each tumour. To do this we use the `molecular.subtyping` command from
-the `genefu` package. There are a number of subtyping methods available
-- we are using the popular “PAM50” approach, which uses the expression
-patterns of collection of 50 genes to put each tumour into one of five
-subtypes: Basal-like, Her2/Neu, Luminal A, Luminal B and Normal-like.
-The command parameters specify the subtyping model to be used (`pam50`),
-the gene expression data (`uppExp` - note that the matrix needs to be
-transposed (rotated 90 degrees), hence the `t()` function), and
-annotation information linking probes to genes (`uppAnnot`). You can use
-the R help facility (via `?molecular.subtyping`) to find out what the
-`do.mapping` parameter does, if you are interested. :)
+the `genefu` package. There are a number of subtyping methods
+available - we are using the popular “PAM50” approach, which uses the
+expression patterns of collection of 50 genes to put each tumour into
+one of five subtypes: Basal-like, Her2/Neu, Luminal A, Luminal B and
+Normal-like. The command parameters specify the subtyping model to be
+used (`pam50`), the gene expression data (`uppExp` - note that the
+matrix needs to be transposed (rotated 90 degrees), hence the `t()`
+function), and annotation information linking probes to genes
+(`uppAnnot`). You can use the R help facility (via
+`?molecular.subtyping`) to find out what the `do.mapping` parameter
+does, if you are interested. :)
 
 **YOU DON’T NEED TO RUN THE NEXT BLOCK OF CODE.**
 
@@ -567,7 +568,7 @@ We can see that the result is highly significant, so we conclude that
 the different tumour subtypes are associated with differences in
 recurrence free survival rates.
 
-**Challenge 5:** *Modify the code above to test for an association
+**Challenge 6:** *Modify the code above to test for an association
 between grade and survival. What do you conclude?*
 
 ### Gene expression data
@@ -588,8 +589,8 @@ esr1Probes = uppAnnot$probe[ na.omit(uppAnnot$Gene.symbol == 'ESR1') ]
 esr1Probes
 ```
 
-    ##  [1] "205221_at"   "211122_s_at" "211123_at"   "211124_s_at" "211508_s_at" "215228_at"  
-    ##  [7] "215229_at"   "216460_at"   "216482_x_at" "240973_s_at"
+    ##  [1] "205221_at"   "211122_s_at" "211123_at"   "211124_s_at" "211508_s_at" "215228_at"   "215229_at"   "216460_at"   "216482_x_at"
+    ## [10] "240973_s_at"
 
 There are multiple probes, but the best one to use is the first one:
 `esr1Probes[1]` (trust me).
@@ -631,7 +632,7 @@ ggplot(data=subset(uppClinSmall, !is.na(er)), aes(x=as.factor(er), y=esr1Dat)) +
 
 ![](PATH302-brcaData_files/figure-gfm/unnamed-chunk-47-1.png)<!-- -->
 
-**Challenge 6:** *Explain what the boxplot above shows. Is this what you
+**Challenge 7:** *Explain what the boxplot above shows. Is this what you
 would expect?*
 
 ### Proliferation genes
@@ -640,16 +641,16 @@ The genes below are involved in cellular proliferation, and
 proliferation plays an important role in the growth and development of
 tumours.
 
-| Gene   | Probe         |
-|:-------|:--------------|
-| MAD2L1 | 203362\_s\_at |
-| RRM2   | 201890\_at    |
-| ANLN   | 222608\_s\_at |
-| MCM6   | 201930\_at    |
-| PBK    | 219148\_at    |
-| GINS2  | 221521\_s\_at |
-| KPNA2  | 201088\_at    |
-| PCNA   | 201202\_at    |
+| Gene   | Probe        |
+|:-------|:-------------|
+| MAD2L1 | 203362_s\_at |
+| RRM2   | 201890_at    |
+| ANLN   | 222608_s\_at |
+| MCM6   | 201930_at    |
+| PBK    | 219148_at    |
+| GINS2  | 221521_s\_at |
+| KPNA2  | 201088_at    |
+| PCNA   | 201202_at    |
 
 Create an object containing the names of the proliferation genes:
 
@@ -713,7 +714,7 @@ heatmap.2(prolifDatScale, trace='none', scale='none', col='bluered',
 
 ![](PATH302-brcaData_files/figure-gfm/unnamed-chunk-54-1.png)<!-- -->
 
-**Challenge 7:** *Explain what is being shown in the heatmap.*
+**Challenge 8:** *Explain what is being shown in the heatmap.*
 
 Since all of the proliferation genes are basically behaving in the same
 way, we can summarise their activity by taking their mean for each
@@ -751,8 +752,8 @@ heatmap.2(prolifDatScale[,ord], trace='none', scale='none', col='bluered',
           ColSideColors=prolifCol[ord])
 ```
 
-    ## Warning in heatmap.2(prolifDatScale[, ord], trace = "none", scale = "none", : Discrepancy:
-    ## Colv is FALSE, while dendrogram is `both'. Omitting column dendogram.
+    ## Warning in heatmap.2(prolifDatScale[, ord], trace = "none", scale = "none", : Discrepancy: Colv is FALSE, while dendrogram is `both'.
+    ## Omitting column dendogram.
 
 ![](PATH302-brcaData_files/figure-gfm/unnamed-chunk-57-1.png)<!-- -->
 
@@ -782,13 +783,13 @@ ggplot(data=subset(uppClinSmall, !is.na(grade)), aes(x=as.factor(grade), y=proli
 
 ![](PATH302-brcaData_files/figure-gfm/unnamed-chunk-59-1.png)<!-- -->
 
-**Challenge 8:** *Modify the above code to investigate the relationship
+**Challenge 9:** *Modify the above code to investigate the relationship
 between proliferation and tumour subtype. What does the plot tell you?*
 
 Lastly, we can use the centroid to define groups of tumours with
 particular characteristics. Here we will split the tumours into two
-groups, one exhibiting “low” proliferation" (values below centroid
-median), and one exhibiting “high” proliferation" (values above centroid
+groups, one exhibiting “low” proliferation” (values below centroid
+median), and one exhibiting “high” proliferation” (values above centroid
 median).
 
 ``` r
@@ -831,7 +832,7 @@ legend('bottomleft', groups, fill=1:2)
 
 ![](PATH302-brcaData_files/figure-gfm/unnamed-chunk-64-1.png)<!-- -->
 
-**Challenge 9:** *What does the plot above tell you about the
+**Challenge 10:** *What does the plot above tell you about the
 relationship between proliferative activity in the tumour, and
 recurrence free survival?*
 
