@@ -92,7 +92,7 @@ this (you can just cut and paste these commands into the R console - if
 you’re not sure what this means, just let me know):
 
 ``` r
-install.packages(c('ggplot', 'tibble', 'magrittr', 'gplots', 'httr', 'BiocManager'))
+install.packages(c('ggplot2', 'tibble', 'magrittr', 'gplots', 'httr', 'BiocManager'))
 library(BiocManager)
 install('Biobase')
 ```
@@ -213,34 +213,24 @@ name
 attach(uppClinSmall)
 ```
 
-    ## The following objects are masked from uppClinSmall (pos = 3):
-    ## 
-    ##     age, e.rfs, er, grade, node, pgr, size, t.rfs, treatment
-
-    ## The following objects are masked from uppClinSmall (pos = 4):
-    ## 
-    ##     age, e.rfs, er, grade, node, pgr, size, t.rfs, treatment
-
-    ## The following objects are masked from uppClinSmall (pos = 5):
-    ## 
-    ##     age, e.rfs, er, grade, node, pgr, size, t.rfs, treatment
-
-    ## The following objects are masked from uppClinSmall (pos = 6):
-    ## 
-    ##     age, e.rfs, er, grade, node, pgr, size, t.rfs, treatment
-
 For example:
 
 ``` r
 grade
 ```
 
-    ##   [1]  3  3  2  1  2  3  1  1  3  3 NA  2  2  2  2  2  3  2  2  2  2  2  1  2  2  2  2  2  2  3  2  2  1  2  2  2  2  1  3  2  2  2  3  2  2
-    ##  [46]  3  2  2  1  3  2  2  2  3  3  2  1  2  2  3  1  2  2  3  2  2  2  3  3  1  1  3  2  3  2  3  2  2  1  2  1  3  3  1  1  1  2  3  3  2
-    ##  [91]  2  2  2  3  1  2  2  2  2  2  3  3  2  2  3  2  2  3  1  1  2  1  2  1  2  2  2  3  1  2  2  1  2  2  1  1  3  1  1  2  2  2  1  1  1
-    ## [136]  2  2  2  1  3  2  1  1  2  2  1  2  2  2  2  2  1  1  2  3  2  1  3  1  1  2  1  3  1  3  1  2  2  2  3  2  1  1  2  1  3  2  3  2  1
-    ## [181]  2  2  2  1  2  1  1  1  2  1  1  2  3  3  3  2  2  2  2  2  3  2  1  2  1  2  3  1  2  2  1  2  2  3  3  2  1  3 NA  1  1  2  2  3  1
-    ## [226]  2  2  1  2  1  2  1  3  2  2  2  1  3  1  3  3  3  1  2  2  2  2  3  2  1  2
+    ##   [1]  3  3  2  1  2  3  1  1  3  3 NA  2  2  2  2  2  3  2  2  2  2
+    ##  [22]  2  1  2  2  2  2  2  2  3  2  2  1  2  2  2  2  1  3  2  2  2
+    ##  [43]  3  2  2  3  2  2  1  3  2  2  2  3  3  2  1  2  2  3  1  2  2
+    ##  [64]  3  2  2  2  3  3  1  1  3  2  3  2  3  2  2  1  2  1  3  3  1
+    ##  [85]  1  1  2  3  3  2  2  2  2  3  1  2  2  2  2  2  3  3  2  2  3
+    ## [106]  2  2  3  1  1  2  1  2  1  2  2  2  3  1  2  2  1  2  2  1  1
+    ## [127]  3  1  1  2  2  2  1  1  1  2  2  2  1  3  2  1  1  2  2  1  2
+    ## [148]  2  2  2  2  1  1  2  3  2  1  3  1  1  2  1  3  1  3  1  2  2
+    ## [169]  2  3  2  1  1  2  1  3  2  3  2  1  2  2  2  1  2  1  1  1  2
+    ## [190]  1  1  2  3  3  3  2  2  2  2  2  3  2  1  2  1  2  3  1  2  2
+    ## [211]  1  2  2  3  3  2  1  3 NA  1  1  2  2  3  1  2  2  1  2  1  2
+    ## [232]  1  3  2  2  2  1  3  1  3  3  3  1  2  2  2  2  3  2  1  2
 
 The clinical variables are:
 
@@ -605,8 +595,9 @@ esr1Probes = uppAnnot$probe[ na.omit(uppAnnot$Gene.symbol == 'ESR1') ]
 esr1Probes
 ```
 
-    ##  [1] "205221_at"   "211122_s_at" "211123_at"   "211124_s_at" "211508_s_at" "215228_at"   "215229_at"   "216460_at"   "216482_x_at"
-    ## [10] "240973_s_at"
+    ##  [1] "205221_at"   "211122_s_at" "211123_at"   "211124_s_at"
+    ##  [5] "211508_s_at" "215228_at"   "215229_at"   "216460_at"  
+    ##  [9] "216482_x_at" "240973_s_at"
 
 There are multiple probes, but the best one to use is the first one:
 `esr1Probes[1]` (trust me).
@@ -768,7 +759,8 @@ heatmap.2(prolifDatScale[,ord], trace='none', scale='none', col='bluered',
           ColSideColors=prolifCol[ord])
 ```
 
-    ## Warning in heatmap.2(prolifDatScale[, ord], trace = "none", scale = "none", : Discrepancy: Colv is FALSE, while dendrogram is `both'.
+    ## Warning in heatmap.2(prolifDatScale[, ord], trace = "none", scale
+    ## = "none", : Discrepancy: Colv is FALSE, while dendrogram is `both'.
     ## Omitting column dendogram.
 
 ![](PATH302-brcaData_files/figure-gfm/unnamed-chunk-57-1.png)<!-- -->
