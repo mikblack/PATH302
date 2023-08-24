@@ -58,7 +58,7 @@ newPath = c(.libPaths(), paste0(getwd(), "/Rlibs"))
 .libPaths(newPath)
 
 install.packages(c('magrittr','gplots','httr','BiocManager'), lib='Rlibs')
-BiocManager::install(version='3.14', lib='Rlibs')
+BiocManager::install(lib='Rlibs')
 ```
 
  - Type 'n' (and hit 'enter') if presented with: `Update all/some/none? [a/s/n/]:`

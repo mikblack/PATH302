@@ -60,7 +60,7 @@ newPath = c(.libPaths(), paste0(getwd(), "/Rlibs"))
 .libPaths(newPath)
 
 install.packages(c('magrittr','gplots','httr','BiocManager'), lib='Rlibs')
-BiocManager::install(version='3.14', lib='Rlibs')
+BiocManager::install(lib='Rlibs')
 ```
 
 - Type ‘n’ (and hit ‘enter’) if presented with:
@@ -250,6 +250,22 @@ attach(uppClinSmall)
     ##     age, e.rfs, er, grade, node, pgr, size, t.rfs, treatment
 
     ## The following objects are masked from uppClinSmall (pos = 12):
+    ## 
+    ##     age, e.rfs, er, grade, node, pgr, size, t.rfs, treatment
+
+    ## The following objects are masked from uppClinSmall (pos = 13):
+    ## 
+    ##     age, e.rfs, er, grade, node, pgr, size, t.rfs, treatment
+
+    ## The following objects are masked from uppClinSmall (pos = 14):
+    ## 
+    ##     age, e.rfs, er, grade, node, pgr, size, t.rfs, treatment
+
+    ## The following objects are masked from uppClinSmall (pos = 15):
+    ## 
+    ##     age, e.rfs, er, grade, node, pgr, size, t.rfs, treatment
+
+    ## The following objects are masked from uppClinSmall (pos = 16):
     ## 
     ##     age, e.rfs, er, grade, node, pgr, size, t.rfs, treatment
 
