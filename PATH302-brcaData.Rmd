@@ -191,7 +191,7 @@ uppClinSmall$t.rfs = uppClinSmall$t.rfs / 365
 
 Attach data so that we can directly access the clinical variables by name
 
-```{r}
+```{r, warning=FALSE, message=FALSE}
 attach(uppClinSmall)
 ```
 
