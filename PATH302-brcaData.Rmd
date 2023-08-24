@@ -73,7 +73,7 @@ If you already have working versions of R and RStudio installed on your computer
 You need to install both R _and_ RStudio on your computer.
 
  - Download R from: http://cran.auckland.ac.nz/
- - Download RStudio from: https://www.rstudio.com/products/rstudio/download/#download
+ - Download RStudio from: https://posit.co/download/rstudio-desktop/#download
 
 Once you have installed both applications, open RStudio (don't open the R application - we'll use R through the RStudio interface).
 

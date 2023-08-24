@@ -79,7 +79,7 @@ You need to install both R *and* RStudio on your computer.
 
 - Download R from: <http://cran.auckland.ac.nz/>
 - Download RStudio from:
-  <https://www.rstudio.com/products/rstudio/download/#download>
+  <https://posit.co/download/rstudio-desktop/#download>
 
 Once you have installed both applications, open RStudio (don’t open the
 R application - we’ll use R through the RStudio interface).
@@ -282,6 +282,22 @@ attach(uppClinSmall)
     ##     age, e.rfs, er, grade, node, pgr, size, t.rfs, treatment
 
     ## The following objects are masked from uppClinSmall (pos = 20):
+    ## 
+    ##     age, e.rfs, er, grade, node, pgr, size, t.rfs, treatment
+
+    ## The following objects are masked from uppClinSmall (pos = 21):
+    ## 
+    ##     age, e.rfs, er, grade, node, pgr, size, t.rfs, treatment
+
+    ## The following objects are masked from uppClinSmall (pos = 22):
+    ## 
+    ##     age, e.rfs, er, grade, node, pgr, size, t.rfs, treatment
+
+    ## The following objects are masked from uppClinSmall (pos = 23):
+    ## 
+    ##     age, e.rfs, er, grade, node, pgr, size, t.rfs, treatment
+
+    ## The following objects are masked from uppClinSmall (pos = 24):
     ## 
     ##     age, e.rfs, er, grade, node, pgr, size, t.rfs, treatment
 
