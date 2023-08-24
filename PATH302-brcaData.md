@@ -1,11 +1,11 @@
 PATH302 - Breast Cancer Data
 ================
 Professor Mik Black
-26 August 2022
+25 August 2023
 
 <!-- first run this code to generate GitHub formatted markdown: -->
 <!-- rmarkdown::render('PATH302-brcaData.Rmd', output_format="github_document") -->
-<!-- then knit the docuemnt to generate html -->
+<!-- then knit the document to generate html -->
 <!-- then on the command line run:  -->
 <!-- wkhtmltopdf --footer-spacing 7 --footer-font-size 10 --footer-left 'PATH302' --footer-right '[page]/[topage]' --minimum-font-size 15 -B 23 -T 20 -R 20 -L 20 PATH302-brcaData.html PATH302-brcaData.pdf -->
 <!-- This gets around the issue of getting "double links" when printing to PDF from a browser. -->
@@ -36,9 +36,9 @@ An online version of this document can be accessed at:
 
 Two options:
 
--   Running R and RStudio on the Student Desktop:
-    <https://student.desktop.otago.ac.nz>
--   Running R and RStudio your own computer
+- Running R and RStudio on the Student Desktop:
+  <https://student.desktop.otago.ac.nz>
+- Running R and RStudio your own computer
 
 Use the instructions below that match your computing setup.
 
@@ -63,10 +63,10 @@ install.packages(c('magrittr','gplots','httr','BiocManager'), lib='Rlibs')
 BiocManager::install(version='3.14', lib='Rlibs')
 ```
 
--   Type ‘n’ (and hit ‘enter’) if presented with:
-    `Update all/some/none? [a/s/n/]:`
--   You can ignore any warnings about packages being built under a
-    different version of R.
+- Type ‘n’ (and hit ‘enter’) if presented with:
+  `Update all/some/none? [a/s/n/]:`
+- You can ignore any warnings about packages being built under a
+  different version of R.
 
 ### Running on your own computer
 
@@ -77,9 +77,9 @@ computer, you can skip ahead to “package installation” below.
 
 You need to install both R *and* RStudio on your computer.
 
--   Download R from: <http://cran.auckland.ac.nz/>
--   Download RStudio from:
-    <https://www.rstudio.com/products/rstudio/download/#download>
+- Download R from: <http://cran.auckland.ac.nz/>
+- Download RStudio from:
+  <https://www.rstudio.com/products/rstudio/download/#download>
 
 Once you have installed both applications, open RStudio (don’t open the
 R application - we’ll use R through the RStudio interface).
@@ -97,10 +97,10 @@ library(BiocManager)
 install('Biobase')
 ```
 
--   Type ‘n’ (and hit ‘enter’) if presented with:
-    `Update all/some/none? [a/s/n/]:`
--   You can ignore any warnings about packages being built under a
-    different version of R.
+- Type ‘n’ (and hit ‘enter’) if presented with:
+  `Update all/some/none? [a/s/n/]:`
+- You can ignore any warnings about packages being built under a
+  different version of R.
 
 ## Loading packages and data
 
@@ -213,24 +213,58 @@ name
 attach(uppClinSmall)
 ```
 
+    ## The following objects are masked from uppClinSmall (pos = 3):
+    ## 
+    ##     age, e.rfs, er, grade, node, pgr, size, t.rfs, treatment
+
+    ## The following objects are masked from uppClinSmall (pos = 4):
+    ## 
+    ##     age, e.rfs, er, grade, node, pgr, size, t.rfs, treatment
+
+    ## The following objects are masked from uppClinSmall (pos = 5):
+    ## 
+    ##     age, e.rfs, er, grade, node, pgr, size, t.rfs, treatment
+
+    ## The following objects are masked from uppClinSmall (pos = 6):
+    ## 
+    ##     age, e.rfs, er, grade, node, pgr, size, t.rfs, treatment
+
+    ## The following objects are masked from uppClinSmall (pos = 7):
+    ## 
+    ##     age, e.rfs, er, grade, node, pgr, size, t.rfs, treatment
+
+    ## The following objects are masked from uppClinSmall (pos = 8):
+    ## 
+    ##     age, e.rfs, er, grade, node, pgr, size, t.rfs, treatment
+
+    ## The following objects are masked from uppClinSmall (pos = 9):
+    ## 
+    ##     age, e.rfs, er, grade, node, pgr, size, t.rfs, treatment
+
+    ## The following objects are masked from uppClinSmall (pos = 10):
+    ## 
+    ##     age, e.rfs, er, grade, node, pgr, size, t.rfs, treatment
+
+    ## The following objects are masked from uppClinSmall (pos = 11):
+    ## 
+    ##     age, e.rfs, er, grade, node, pgr, size, t.rfs, treatment
+
+    ## The following objects are masked from uppClinSmall (pos = 12):
+    ## 
+    ##     age, e.rfs, er, grade, node, pgr, size, t.rfs, treatment
+
 For example:
 
 ``` r
 grade
 ```
 
-    ##   [1]  3  3  2  1  2  3  1  1  3  3 NA  2  2  2  2  2  3  2  2  2  2
-    ##  [22]  2  1  2  2  2  2  2  2  3  2  2  1  2  2  2  2  1  3  2  2  2
-    ##  [43]  3  2  2  3  2  2  1  3  2  2  2  3  3  2  1  2  2  3  1  2  2
-    ##  [64]  3  2  2  2  3  3  1  1  3  2  3  2  3  2  2  1  2  1  3  3  1
-    ##  [85]  1  1  2  3  3  2  2  2  2  3  1  2  2  2  2  2  3  3  2  2  3
-    ## [106]  2  2  3  1  1  2  1  2  1  2  2  2  3  1  2  2  1  2  2  1  1
-    ## [127]  3  1  1  2  2  2  1  1  1  2  2  2  1  3  2  1  1  2  2  1  2
-    ## [148]  2  2  2  2  1  1  2  3  2  1  3  1  1  2  1  3  1  3  1  2  2
-    ## [169]  2  3  2  1  1  2  1  3  2  3  2  1  2  2  2  1  2  1  1  1  2
-    ## [190]  1  1  2  3  3  3  2  2  2  2  2  3  2  1  2  1  2  3  1  2  2
-    ## [211]  1  2  2  3  3  2  1  3 NA  1  1  2  2  3  1  2  2  1  2  1  2
-    ## [232]  1  3  2  2  2  1  3  1  3  3  3  1  2  2  2  2  3  2  1  2
+    ##   [1]  3  3  2  1  2  3  1  1  3  3 NA  2  2  2  2  2  3  2  2  2  2  2  1  2  2  2  2  2  2  3  2  2  1  2  2  2  2  1  3  2  2  2  3  2  2  3
+    ##  [47]  2  2  1  3  2  2  2  3  3  2  1  2  2  3  1  2  2  3  2  2  2  3  3  1  1  3  2  3  2  3  2  2  1  2  1  3  3  1  1  1  2  3  3  2  2  2
+    ##  [93]  2  3  1  2  2  2  2  2  3  3  2  2  3  2  2  3  1  1  2  1  2  1  2  2  2  3  1  2  2  1  2  2  1  1  3  1  1  2  2  2  1  1  1  2  2  2
+    ## [139]  1  3  2  1  1  2  2  1  2  2  2  2  2  1  1  2  3  2  1  3  1  1  2  1  3  1  3  1  2  2  2  3  2  1  1  2  1  3  2  3  2  1  2  2  2  1
+    ## [185]  2  1  1  1  2  1  1  2  3  3  3  2  2  2  2  2  3  2  1  2  1  2  3  1  2  2  1  2  2  3  3  2  1  3 NA  1  1  2  2  3  1  2  2  1  2  1
+    ## [231]  2  1  3  2  2  2  1  3  1  3  3  3  1  2  2  2  2  3  2  1  2
 
 The clinical variables are:
 
@@ -541,13 +575,7 @@ survival match what you would expect?*
 
 The following is a survival plot for tumour subtype.
 
-``` {r]}
-plot( survfit(Surv(t.rfs, e.rfs) ~ subtype ), col=1:5, 
-      xlab="Time (years)", 
-      ylab = "Proportion recurrence free")
-groups <- names(table(subtype))
-legend('bottomleft', groups, fill=1:5)
-```
+`{r]} plot( survfit(Surv(t.rfs, e.rfs) ~ subtype ), col=1:5,        xlab="Time (years)",        ylab = "Proportion recurrence free") groups <- names(table(subtype)) legend('bottomleft', groups, fill=1:5)`
 
 We can test to see whether the relationship between subtype and survival
 is significant using the `survdiff` command:
@@ -595,9 +623,8 @@ esr1Probes = uppAnnot$probe[ na.omit(uppAnnot$Gene.symbol == 'ESR1') ]
 esr1Probes
 ```
 
-    ##  [1] "205221_at"   "211122_s_at" "211123_at"   "211124_s_at"
-    ##  [5] "211508_s_at" "215228_at"   "215229_at"   "216460_at"  
-    ##  [9] "216482_x_at" "240973_s_at"
+    ##  [1] "205221_at"   "211122_s_at" "211123_at"   "211124_s_at" "211508_s_at" "215228_at"   "215229_at"   "216460_at"   "216482_x_at"
+    ## [10] "240973_s_at"
 
 There are multiple probes, but the best one to use is the first one:
 `esr1Probes[1]` (trust me).
@@ -648,16 +675,16 @@ The genes below are involved in cellular proliferation, and
 proliferation plays an important role in the growth and development of
 tumours.
 
-| Gene   | Probe        |
-|:-------|:-------------|
-| MAD2L1 | 203362_s\_at |
-| RRM2   | 201890_at    |
-| ANLN   | 222608_s\_at |
-| MCM6   | 201930_at    |
-| PBK    | 219148_at    |
-| GINS2  | 221521_s\_at |
-| KPNA2  | 201088_at    |
-| PCNA   | 201202_at    |
+| Gene   | Probe       |
+|:-------|:------------|
+| MAD2L1 | 203362_s_at |
+| RRM2   | 201890_at   |
+| ANLN   | 222608_s_at |
+| MCM6   | 201930_at   |
+| PBK    | 219148_at   |
+| GINS2  | 221521_s_at |
+| KPNA2  | 201088_at   |
+| PCNA   | 201202_at   |
 
 Create an object containing the names of the proliferation genes:
 
@@ -759,9 +786,8 @@ heatmap.2(prolifDatScale[,ord], trace='none', scale='none', col='bluered',
           ColSideColors=prolifCol[ord])
 ```
 
-    ## Warning in heatmap.2(prolifDatScale[, ord], trace = "none", scale
-    ## = "none", : Discrepancy: Colv is FALSE, while dendrogram is `both'.
-    ## Omitting column dendogram.
+    ## Warning in heatmap.2(prolifDatScale[, ord], trace = "none", scale = "none", : Discrepancy: Colv is FALSE, while dendrogram is `both'. Omitting
+    ## column dendogram.
 
 ![](PATH302-brcaData_files/figure-gfm/unnamed-chunk-57-1.png)<!-- -->
 
