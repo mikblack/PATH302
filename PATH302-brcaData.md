@@ -269,6 +269,22 @@ attach(uppClinSmall)
     ## 
     ##     age, e.rfs, er, grade, node, pgr, size, t.rfs, treatment
 
+    ## The following objects are masked from uppClinSmall (pos = 17):
+    ## 
+    ##     age, e.rfs, er, grade, node, pgr, size, t.rfs, treatment
+
+    ## The following objects are masked from uppClinSmall (pos = 18):
+    ## 
+    ##     age, e.rfs, er, grade, node, pgr, size, t.rfs, treatment
+
+    ## The following objects are masked from uppClinSmall (pos = 19):
+    ## 
+    ##     age, e.rfs, er, grade, node, pgr, size, t.rfs, treatment
+
+    ## The following objects are masked from uppClinSmall (pos = 20):
+    ## 
+    ##     age, e.rfs, er, grade, node, pgr, size, t.rfs, treatment
+
 For example:
 
 ``` r
@@ -885,16 +901,3 @@ legend('bottomleft', groups, fill=1:2)
 **Challenge 10:** *What does the plot above tell you about the
 relationship between proliferative activity in the tumour, and
 recurrence free survival?*
-
-### IN CASE OF INSTALL DISASTER
-
-If we have a problem with installing packages at the start of the
-session, this command:
-
-``` r
-load(url("https://github.com/mikblack/PATH302/raw/master/uppsalaObjects.RData"))
-```
-
-will load a file contains the `uppExp`, `uppAnnot` and `uppClin`
-objects, which will remove the need to have the Bioconductor packages
-installed.
