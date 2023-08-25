@@ -219,12 +219,18 @@ For example:
 grade
 ```
 
-    ##   [1]  3  3  2  1  2  3  1  1  3  3 NA  2  2  2  2  2  3  2  2  2  2  2  1  2  2  2  2  2  2  3  2  2  1  2  2  2  2  1  3  2  2  2  3  2  2  3
-    ##  [47]  2  2  1  3  2  2  2  3  3  2  1  2  2  3  1  2  2  3  2  2  2  3  3  1  1  3  2  3  2  3  2  2  1  2  1  3  3  1  1  1  2  3  3  2  2  2
-    ##  [93]  2  3  1  2  2  2  2  2  3  3  2  2  3  2  2  3  1  1  2  1  2  1  2  2  2  3  1  2  2  1  2  2  1  1  3  1  1  2  2  2  1  1  1  2  2  2
-    ## [139]  1  3  2  1  1  2  2  1  2  2  2  2  2  1  1  2  3  2  1  3  1  1  2  1  3  1  3  1  2  2  2  3  2  1  1  2  1  3  2  3  2  1  2  2  2  1
-    ## [185]  2  1  1  1  2  1  1  2  3  3  3  2  2  2  2  2  3  2  1  2  1  2  3  1  2  2  1  2  2  3  3  2  1  3 NA  1  1  2  2  3  1  2  2  1  2  1
-    ## [231]  2  1  3  2  2  2  1  3  1  3  3  3  1  2  2  2  2  3  2  1  2
+    ##   [1]  3  3  2  1  2  3  1  1  3  3 NA  2  2  2  2  2  3  2  2  2  2
+    ##  [22]  2  1  2  2  2  2  2  2  3  2  2  1  2  2  2  2  1  3  2  2  2
+    ##  [43]  3  2  2  3  2  2  1  3  2  2  2  3  3  2  1  2  2  3  1  2  2
+    ##  [64]  3  2  2  2  3  3  1  1  3  2  3  2  3  2  2  1  2  1  3  3  1
+    ##  [85]  1  1  2  3  3  2  2  2  2  3  1  2  2  2  2  2  3  3  2  2  3
+    ## [106]  2  2  3  1  1  2  1  2  1  2  2  2  3  1  2  2  1  2  2  1  1
+    ## [127]  3  1  1  2  2  2  1  1  1  2  2  2  1  3  2  1  1  2  2  1  2
+    ## [148]  2  2  2  2  1  1  2  3  2  1  3  1  1  2  1  3  1  3  1  2  2
+    ## [169]  2  3  2  1  1  2  1  3  2  3  2  1  2  2  2  1  2  1  1  1  2
+    ## [190]  1  1  2  3  3  3  2  2  2  2  2  3  2  1  2  1  2  3  1  2  2
+    ## [211]  1  2  2  3  3  2  1  3 NA  1  1  2  2  3  1  2  2  1  2  1  2
+    ## [232]  1  3  2  2  2  1  3  1  3  3  3  1  2  2  2  2  3  2  1  2
 
 The clinical variables are:
 
@@ -535,7 +541,15 @@ survival match what you would expect?*
 
 The following is a survival plot for tumour subtype.
 
-`{r]} plot( survfit(Surv(t.rfs, e.rfs) ~ subtype ), col=1:5,        xlab="Time (years)",        ylab = "Proportion recurrence free") groups <- names(table(subtype)) legend('bottomleft', groups, fill=1:5)`
+``` r
+plot( survfit(Surv(t.rfs, e.rfs) ~ subtype ), col=1:5, 
+      xlab="Time (years)", 
+      ylab = "Proportion recurrence free")
+groups <- names(table(subtype))
+legend('bottomleft', groups, fill=1:5)
+```
+
+![](PATH302-brcaData_files/figure-gfm/unnamed-chunk-38-1.png)<!-- -->
 
 We can test to see whether the relationship between subtype and survival
 is significant using the `survdiff` command:
@@ -583,8 +597,9 @@ esr1Probes = uppAnnot$probe[ na.omit(uppAnnot$Gene.symbol == 'ESR1') ]
 esr1Probes
 ```
 
-    ##  [1] "205221_at"   "211122_s_at" "211123_at"   "211124_s_at" "211508_s_at" "215228_at"   "215229_at"   "216460_at"   "216482_x_at"
-    ## [10] "240973_s_at"
+    ##  [1] "205221_at"   "211122_s_at" "211123_at"   "211124_s_at"
+    ##  [5] "211508_s_at" "215228_at"   "215229_at"   "216460_at"  
+    ##  [9] "216482_x_at" "240973_s_at"
 
 There are multiple probes, but the best one to use is the first one:
 `esr1Probes[1]` (trust me).
@@ -624,7 +639,7 @@ ER+ (1) tumours:
 ggplot(data=subset(uppClinSmall, !is.na(er)), aes(x=as.factor(er), y=esr1Dat)) + geom_boxplot()
 ```
 
-![](PATH302-brcaData_files/figure-gfm/unnamed-chunk-47-1.png)<!-- -->
+![](PATH302-brcaData_files/figure-gfm/unnamed-chunk-48-1.png)<!-- -->
 
 **Challenge 7:** *Explain what the boxplot above shows. Is this what you
 would expect?*
@@ -706,7 +721,7 @@ heatmap.2(prolifDatScale, trace='none', scale='none', col='bluered',
           labRow = uppAnnot$Gene.symbol[prolifRows])
 ```
 
-![](PATH302-brcaData_files/figure-gfm/unnamed-chunk-54-1.png)<!-- -->
+![](PATH302-brcaData_files/figure-gfm/unnamed-chunk-55-1.png)<!-- -->
 
 **Challenge 8:** *Explain what is being shown in the heatmap.*
 
@@ -746,10 +761,11 @@ heatmap.2(prolifDatScale[,ord], trace='none', scale='none', col='bluered',
           ColSideColors=prolifCol[ord])
 ```
 
-    ## Warning in heatmap.2(prolifDatScale[, ord], trace = "none", scale = "none", : Discrepancy: Colv is FALSE, while dendrogram is `both'. Omitting
-    ## column dendogram.
+    ## Warning in heatmap.2(prolifDatScale[, ord], trace = "none", scale
+    ## = "none", : Discrepancy: Colv is FALSE, while dendrogram is `both'.
+    ## Omitting column dendogram.
 
-![](PATH302-brcaData_files/figure-gfm/unnamed-chunk-57-1.png)<!-- -->
+![](PATH302-brcaData_files/figure-gfm/unnamed-chunk-58-1.png)<!-- -->
 
 Now we can clearly see that low values of the centroid (blue) correspond
 to uniformly low expression levels for the proliferation genes, and vice
@@ -775,7 +791,7 @@ across tumour grade.
 ggplot(data=subset(uppClinSmall, !is.na(grade)), aes(x=as.factor(grade), y=prolifMean)) + geom_boxplot()
 ```
 
-![](PATH302-brcaData_files/figure-gfm/unnamed-chunk-59-1.png)<!-- -->
+![](PATH302-brcaData_files/figure-gfm/unnamed-chunk-60-1.png)<!-- -->
 
 **Challenge 9:** *Modify the above code to investigate the relationship
 between proliferation and tumour subtype. What does the plot tell you?*
@@ -824,7 +840,7 @@ groups <- names(table(prolifHilo))
 legend('bottomleft', groups, fill=1:2)
 ```
 
-![](PATH302-brcaData_files/figure-gfm/unnamed-chunk-64-1.png)<!-- -->
+![](PATH302-brcaData_files/figure-gfm/unnamed-chunk-65-1.png)<!-- -->
 
 **Challenge 10:** *What does the plot above tell you about the
 relationship between proliferative activity in the tumour, and

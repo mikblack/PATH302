@@ -407,7 +407,7 @@ legend('bottomleft', c("G1", "G2", "G3"), fill=1:3)
 
 The following is a survival plot for tumour subtype.
 
-```{r]}
+```{r}
 plot( survfit(Surv(t.rfs, e.rfs) ~ subtype ), col=1:5, 
       xlab="Time (years)", 
       ylab = "Proportion recurrence free")
