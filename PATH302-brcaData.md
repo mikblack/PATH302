@@ -1,7 +1,7 @@
 PATH302 - Breast Cancer Data
 ================
 Professor Mik Black
-25 August 2023
+29 August 2024
 
 <!-- first run this code to generate GitHub formatted markdown: -->
 <!-- rmarkdown::render('PATH302-brcaData.Rmd', output_format="github_document") -->
@@ -24,9 +24,9 @@ the United States of America*, 102(38), 13550–13555.
 It comprises microarray and clinical data generated from tumour samples
 obtained from 251 female breast cancer patients from Uppsala County,
 Sweden, from January 1, 1987 to December 31, 1989. While this is a
-relatively old data set, it still reflects the type of data generated in
-clinical genomics studies today (i.e., sequencing-based transcriptomic
-data from tumours).
+relatively old (okay, REALLY old) data set, it still reflects the type
+of data generated in clinical genomics studies today (i.e.,
+sequencing-based transcriptomic data from tumours).
 
 An online version of this document can be accessed at:
 
@@ -93,8 +93,7 @@ you’re not sure what this means, just let me know):
 
 ``` r
 install.packages(c('ggplot2', 'tibble', 'magrittr', 'gplots', 'httr', 'BiocManager'))
-library(BiocManager)
-install('Biobase')
+BiocManager::install('Biobase')
 ```
 
 - Type ‘n’ (and hit ‘enter’) if presented with:
@@ -219,18 +218,14 @@ For example:
 grade
 ```
 
-    ##   [1]  3  3  2  1  2  3  1  1  3  3 NA  2  2  2  2  2  3  2  2  2  2
-    ##  [22]  2  1  2  2  2  2  2  2  3  2  2  1  2  2  2  2  1  3  2  2  2
-    ##  [43]  3  2  2  3  2  2  1  3  2  2  2  3  3  2  1  2  2  3  1  2  2
-    ##  [64]  3  2  2  2  3  3  1  1  3  2  3  2  3  2  2  1  2  1  3  3  1
-    ##  [85]  1  1  2  3  3  2  2  2  2  3  1  2  2  2  2  2  3  3  2  2  3
-    ## [106]  2  2  3  1  1  2  1  2  1  2  2  2  3  1  2  2  1  2  2  1  1
-    ## [127]  3  1  1  2  2  2  1  1  1  2  2  2  1  3  2  1  1  2  2  1  2
-    ## [148]  2  2  2  2  1  1  2  3  2  1  3  1  1  2  1  3  1  3  1  2  2
-    ## [169]  2  3  2  1  1  2  1  3  2  3  2  1  2  2  2  1  2  1  1  1  2
-    ## [190]  1  1  2  3  3  3  2  2  2  2  2  3  2  1  2  1  2  3  1  2  2
-    ## [211]  1  2  2  3  3  2  1  3 NA  1  1  2  2  3  1  2  2  1  2  1  2
-    ## [232]  1  3  2  2  2  1  3  1  3  3  3  1  2  2  2  2  3  2  1  2
+    ##   [1]  3  3  2  1  2  3  1  1  3  3 NA  2  2  2  2  2  3  2  2  2  2  2  1  2  2  2  2  2  2  3  2  2  1  2  2
+    ##  [36]  2  2  1  3  2  2  2  3  2  2  3  2  2  1  3  2  2  2  3  3  2  1  2  2  3  1  2  2  3  2  2  2  3  3  1
+    ##  [71]  1  3  2  3  2  3  2  2  1  2  1  3  3  1  1  1  2  3  3  2  2  2  2  3  1  2  2  2  2  2  3  3  2  2  3
+    ## [106]  2  2  3  1  1  2  1  2  1  2  2  2  3  1  2  2  1  2  2  1  1  3  1  1  2  2  2  1  1  1  2  2  2  1  3
+    ## [141]  2  1  1  2  2  1  2  2  2  2  2  1  1  2  3  2  1  3  1  1  2  1  3  1  3  1  2  2  2  3  2  1  1  2  1
+    ## [176]  3  2  3  2  1  2  2  2  1  2  1  1  1  2  1  1  2  3  3  3  2  2  2  2  2  3  2  1  2  1  2  3  1  2  2
+    ## [211]  1  2  2  3  3  2  1  3 NA  1  1  2  2  3  1  2  2  1  2  1  2  1  3  2  2  2  1  3  1  3  3  3  1  2  2
+    ## [246]  2  2  3  2  1  2
 
 The clinical variables are:
 
@@ -597,9 +592,8 @@ esr1Probes = uppAnnot$probe[ na.omit(uppAnnot$Gene.symbol == 'ESR1') ]
 esr1Probes
 ```
 
-    ##  [1] "205221_at"   "211122_s_at" "211123_at"   "211124_s_at"
-    ##  [5] "211508_s_at" "215228_at"   "215229_at"   "216460_at"  
-    ##  [9] "216482_x_at" "240973_s_at"
+    ##  [1] "205221_at"   "211122_s_at" "211123_at"   "211124_s_at" "211508_s_at" "215228_at"   "215229_at"  
+    ##  [8] "216460_at"   "216482_x_at" "240973_s_at"
 
 There are multiple probes, but the best one to use is the first one:
 `esr1Probes[1]` (trust me).
@@ -761,9 +755,8 @@ heatmap.2(prolifDatScale[,ord], trace='none', scale='none', col='bluered',
           ColSideColors=prolifCol[ord])
 ```
 
-    ## Warning in heatmap.2(prolifDatScale[, ord], trace = "none", scale
-    ## = "none", : Discrepancy: Colv is FALSE, while dendrogram is `both'.
-    ## Omitting column dendogram.
+    ## Warning in heatmap.2(prolifDatScale[, ord], trace = "none", scale = "none", : Discrepancy: Colv is FALSE,
+    ## while dendrogram is `both'. Omitting column dendogram.
 
 ![](PATH302-brcaData_files/figure-gfm/unnamed-chunk-58-1.png)<!-- -->
 

@@ -1,7 +1,7 @@
 ---
 title: "PATH302 - Breast Cancer Data"
 author: "Professor Mik Black"
-date: "25 August 2023"
+date: "29 August 2024"
 output: 
     html_document: default
     github_document: default
@@ -28,7 +28,7 @@ The data we will be using comes from the following publication:
 
 Miller, L. D., Smeds, J., George, J., Vega, V. B., Vergara, L., Ploner, A., et al. (2005). An expression signature for p53 status in human breast cancer predicts mutation status, transcriptional effects, and patient survival. _Proceedings of the National Academy of Sciences of the United States of America_, 102(38), 13550–13555. 
 
-It comprises microarray and clinical data generated from tumour samples obtained from 251 female breast cancer patients from Uppsala County, Sweden, from January 1, 1987 to December 31, 1989.  While this is a relatively old data set, it still reflects the type of data generated in clinical genomics studies today (i.e., sequencing-based transcriptomic data from tumours).
+It comprises microarray and clinical data generated from tumour samples obtained from 251 female breast cancer patients from Uppsala County, Sweden, from January 1, 1987 to December 31, 1989.  While this is a relatively old (okay, REALLY old) data set, it still reflects the type of data generated in clinical genomics studies today (i.e., sequencing-based transcriptomic data from tumours).
 
 An online version of this document can be accessed at:
 
@@ -84,8 +84,7 @@ Run the commands below in R to do this (you can just cut and paste these command
 
 ```{r, eval=F}
 install.packages(c('ggplot2', 'tibble', 'magrittr', 'gplots', 'httr', 'BiocManager'))
-library(BiocManager)
-install('Biobase')
+BiocManager::install('Biobase')
 ```
 
  - Type 'n' (and hit 'enter') if presented with: `Update all/some/none? [a/s/n/]:`

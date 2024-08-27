@@ -11,7 +11,7 @@
 
 <meta name="author" content="Professor Mik Black" />
 
-<meta name="date" content="2023-08-25" />
+<meta name="date" content="2024-08-29" />
 
 <title>PATH302 - Breast Cancer Data</title>
 
@@ -352,7 +352,7 @@ display: none;
 
 <h1 class="title toc-ignore">PATH302 - Breast Cancer Data</h1>
 <h4 class="author">Professor Mik Black</h4>
-<h4 class="date">25 August 2023</h4>
+<h4 class="date">29 August 2024</h4>
 
 </div>
 
@@ -375,9 +375,9 @@ Sciences of the United States of America</em>, 102(38), 13550–13555.</p>
 <p>It comprises microarray and clinical data generated from tumour
 samples obtained from 251 female breast cancer patients from Uppsala
 County, Sweden, from January 1, 1987 to December 31, 1989. While this is
-a relatively old data set, it still reflects the type of data generated
-in clinical genomics studies today (i.e., sequencing-based
-transcriptomic data from tumours).</p>
+a relatively old (okay, REALLY old) data set, it still reflects the type
+of data generated in clinical genomics studies today (i.e.,
+sequencing-based transcriptomic data from tumours).</p>
 <p>An online version of this document can be accessed at:</p>
 <p><a href="https://github.com/mikblack/PATH302/blob/master/PATH302-brcaData.md" class="uri">https://github.com/mikblack/PATH302/blob/master/PATH302-brcaData.md</a></p>
 <div id="computer-setup" class="section level2">
@@ -433,8 +433,7 @@ first need to install some add-on packages. Run the commands below in R
 to do this (you can just cut and paste these commands into the R console
 - if you’re not sure what this means, just let me know):</p>
 <pre class="r"><code>install.packages(c(&#39;ggplot2&#39;, &#39;tibble&#39;, &#39;magrittr&#39;, &#39;gplots&#39;, &#39;httr&#39;, &#39;BiocManager&#39;))
-library(BiocManager)
-install(&#39;Biobase&#39;)</code></pre>
+BiocManager::install(&#39;Biobase&#39;)</code></pre>
 <ul>
 <li>Type ‘n’ (and hit ‘enter’) if presented with:
 <code>Update all/some/none? [a/s/n/]:</code></li>
