@@ -218,14 +218,17 @@ For example:
 grade
 ```
 
-    ##   [1]  3  3  2  1  2  3  1  1  3  3 NA  2  2  2  2  2  3  2  2  2  2  2  1  2  2  2  2  2  2  3  2  2  1  2  2
-    ##  [36]  2  2  1  3  2  2  2  3  2  2  3  2  2  1  3  2  2  2  3  3  2  1  2  2  3  1  2  2  3  2  2  2  3  3  1
-    ##  [71]  1  3  2  3  2  3  2  2  1  2  1  3  3  1  1  1  2  3  3  2  2  2  2  3  1  2  2  2  2  2  3  3  2  2  3
-    ## [106]  2  2  3  1  1  2  1  2  1  2  2  2  3  1  2  2  1  2  2  1  1  3  1  1  2  2  2  1  1  1  2  2  2  1  3
-    ## [141]  2  1  1  2  2  1  2  2  2  2  2  1  1  2  3  2  1  3  1  1  2  1  3  1  3  1  2  2  2  3  2  1  1  2  1
-    ## [176]  3  2  3  2  1  2  2  2  1  2  1  1  1  2  1  1  2  3  3  3  2  2  2  2  2  3  2  1  2  1  2  3  1  2  2
-    ## [211]  1  2  2  3  3  2  1  3 NA  1  1  2  2  3  1  2  2  1  2  1  2  1  3  2  2  2  1  3  1  3  3  3  1  2  2
-    ## [246]  2  2  3  2  1  2
+    ##   [1]  3  3  2  1  2  3  1  1  3  3 NA  2  2  2  2  2  3  2  2  2  2  2  1  2
+    ##  [25]  2  2  2  2  2  3  2  2  1  2  2  2  2  1  3  2  2  2  3  2  2  3  2  2
+    ##  [49]  1  3  2  2  2  3  3  2  1  2  2  3  1  2  2  3  2  2  2  3  3  1  1  3
+    ##  [73]  2  3  2  3  2  2  1  2  1  3  3  1  1  1  2  3  3  2  2  2  2  3  1  2
+    ##  [97]  2  2  2  2  3  3  2  2  3  2  2  3  1  1  2  1  2  1  2  2  2  3  1  2
+    ## [121]  2  1  2  2  1  1  3  1  1  2  2  2  1  1  1  2  2  2  1  3  2  1  1  2
+    ## [145]  2  1  2  2  2  2  2  1  1  2  3  2  1  3  1  1  2  1  3  1  3  1  2  2
+    ## [169]  2  3  2  1  1  2  1  3  2  3  2  1  2  2  2  1  2  1  1  1  2  1  1  2
+    ## [193]  3  3  3  2  2  2  2  2  3  2  1  2  1  2  3  1  2  2  1  2  2  3  3  2
+    ## [217]  1  3 NA  1  1  2  2  3  1  2  2  1  2  1  2  1  3  2  2  2  1  3  1  3
+    ## [241]  3  3  1  2  2  2  2  3  2  1  2
 
 The clinical variables are:
 
@@ -592,8 +595,8 @@ esr1Probes = uppAnnot$probe[ na.omit(uppAnnot$Gene.symbol == 'ESR1') ]
 esr1Probes
 ```
 
-    ##  [1] "205221_at"   "211122_s_at" "211123_at"   "211124_s_at" "211508_s_at" "215228_at"   "215229_at"  
-    ##  [8] "216460_at"   "216482_x_at" "240973_s_at"
+    ##  [1] "205221_at"   "211122_s_at" "211123_at"   "211124_s_at" "211508_s_at"
+    ##  [6] "215228_at"   "215229_at"   "216460_at"   "216482_x_at" "240973_s_at"
 
 There are multiple probes, but the best one to use is the first one:
 `esr1Probes[1]` (trust me).
@@ -755,8 +758,9 @@ heatmap.2(prolifDatScale[,ord], trace='none', scale='none', col='bluered',
           ColSideColors=prolifCol[ord])
 ```
 
-    ## Warning in heatmap.2(prolifDatScale[, ord], trace = "none", scale = "none", : Discrepancy: Colv is FALSE,
-    ## while dendrogram is `both'. Omitting column dendogram.
+    ## Warning in heatmap.2(prolifDatScale[, ord], trace = "none", scale = "none",
+    ## : Discrepancy: Colv is FALSE, while dendrogram is `both'. Omitting column
+    ## dendogram.
 
 ![](PATH302-brcaData_files/figure-gfm/unnamed-chunk-58-1.png)<!-- -->
 
