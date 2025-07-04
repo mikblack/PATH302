@@ -1,7 +1,7 @@
 ---
 title: "PATH302 - Breast Cancer Data"
 author: "Professor Mik Black"
-date: "29 August 2024"
+date: "14 August 2025"
 output: 
     html_document: default
     github_document: default
@@ -38,31 +38,29 @@ https://github.com/mikblack/PATH302/blob/master/PATH302-brcaData.md
 
 Two options:
  
- - Running R and RStudio on the Student Desktop: https://student.desktop.otago.ac.nz
+ - Running R and RStudio via the Windows App (on the CAL lab computers, or your own device) 
  - Running R and RStudio your own computer
  
 Use the instructions below that match your computing setup.
 
-### Running on the Student Desktop
+### Running via the Windows App
 
-Click on the Windows Start Menu in the bottom left of the Student Desktop, and open the RStudio application.
+Select RStudio from the list of Core Applications. 
 
-#### Package installation
+All of the packages you need are installed installed - **skip ahead to "Loading packages and data" below.**
 
-In order to access the data and commands needed for this lab, we first need to install some add-on packages.
-Run the commands below in R to do this (you can just cut and paste these commands into the R console - if you're not sure what this means, just let me know):
+<!-- #### Package installation -->
 
-```{r, eval=F}
-dir.create('Rlibs')
-newPath = c(.libPaths(), paste0(getwd(), "/Rlibs"))
-.libPaths(newPath)
+<!-- In order to access the data and commands needed for this lab, we first need to install some add-on packages. -->
+<!-- Run the commands below in R to do this (you can just cut and paste these commands into the R console - if you're not sure what this means, just let me know): -->
 
-install.packages(c('magrittr','gplots','httr','BiocManager'), lib='Rlibs')
-BiocManager::install(lib='Rlibs')
-```
+<!-- ```{r, eval=F} -->
+<!-- install.packages(c('magrittr','gplots','httr','BiocManager'), lib='Rlibs') -->
+<!-- BiocManager::install('Biobase') -->
+<!-- ``` -->
 
- - Type 'n' (and hit 'enter') if presented with: `Update all/some/none? [a/s/n/]:`
- - You can ignore any warnings about packages being built under a different version of R.
+ <!-- - Type 'n' (and hit 'enter') if presented with: `Update all/some/none? [a/s/n/]:` -->
+ <!-- - You can ignore any warnings about packages being built under a different version of R. -->
 
 ### Running on your own computer
 
@@ -70,12 +68,12 @@ If you already have working versions of R and RStudio installed on your computer
 
 #### Installing R and RStudio
 
-You need to install both R _and_ RStudio on your computer.
+Follow these instructions to install R and RStudio on your computer:
 
- - Download R from: http://cran.auckland.ac.nz/
- - Download RStudio from: https://posit.co/download/rstudio-desktop/#download
+https://posit.co/download/rstudio-desktop/#download
 
-Once you have installed both applications, open RStudio (don't open the R application - we'll use R through the RStudio interface).
+Once you have installed both applications, open RStudio (don't open the R application - 
+we'll use R through the RStudio interface).
 
 #### Package installation
 
@@ -92,7 +90,8 @@ BiocManager::install('Biobase')
 
 ## Loading packages and data
 
-Do the following, regardless of whether you are running RStudio on your computer, or on the student desktop (same instructions for both).
+Do the following, regardless of whether you are running RStudio on your computer, or 
+via Windows App (same instructions for both).
 
 ### Load packages
 
@@ -110,18 +109,16 @@ library(httr)
 
 ### Load data
 
-Unfortunately, due to the way in which the student desktop is set up, the package that contains that data, `breastCancerUPP` can't easily be installed. For consistency, use the following workaround, even if you are using RStudio on your own computer.
+To make accessing the breast cancer data easier, I have created a data file containing 
+the required information, that can be loaded via the following command:
 
-I have instead created a data file containing the required 
-information, that can be loaded via the following command:
+```{r, echo=FALSE, eval=TRUE, message=FALSE, warning=FALSE}
+# I'm loading the local data when knitting
+load('uppsalaCohort.RData')
+```
 
 ```{r, echo=TRUE, eval=FALSE, message=FALSE, warning=FALSE}
 load(url("https://github.com/mikblack/PATH302/raw/master/uppsalaCohort.RData"))
-```
-
-```{r, echo=FALSE, eval=TRUE, message=FALSE, warning=FALSE}
-library(Biobase)
-load("uppsalaCohort.RData")
 ```
 
 This loads a data object called `upp` which holds LOTS of relevant information about the Uppsala breast cancer cohort.  We are interested in data about: gene expression, microarray probe annotation (so we can understand what gene each microarray probe relates to) and clinical information about the patients.  It also loads an object called 
